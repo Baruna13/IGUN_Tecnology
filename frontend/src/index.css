@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overscroll-behavior: none;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-body-md text-body-md antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme("colors.surface-container-highest");
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  /* Glassmorphism panel base, matches DESIGN.md Level 2 elevation */
+  .glass-panel {
+    @apply bg-surface-container-low/90 backdrop-blur-2xl shadow-glass;
+  }
+
+  .glass-panel-modal {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(24px) saturate(200%);
+    @apply shadow-glass-modal border border-white/[0.08];
+  }
+
+  .hud-button {
+    @apply w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all;
+  }
+
+  .badge-pill {
+    @apply px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm font-medium inline-flex items-center gap-1;
+  }
+}
+
+/* Leaflet dark base tint so tiles blend with the app canvas while loading */
+.leaflet-container {
+  background: #070e1c;
+  font-family: "Inter", sans-serif;
+}
+
+.leaflet-control-attribution {
+  background: rgba(7, 14, 28, 0.6) !important;
+  color: #8c909f !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(4px);
+}
+.leaflet-control-attribution a {
+  color: #adc6ff !important;
+}
+
+/* Hide default zoom control; we render our own floating dock */
+.leaflet-control-zoom {
+  display: none;
+}
+
+/*
+ * OpenStreetMap's standard tiles are light-themed. CARTO's free dark-mode
+ * tiles started requiring a signed-up API key (Aug 2026), so instead of
+ * gating this project behind an account, we invert+recolor the keyless OSM
+ * tiles to approximate a dark basemap. Cheap, no key required, good enough
+ * for our purposes -- swap for a real dark vector style later if desired.
+ */
+.dark-basemap-tiles {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9) saturate(0.6);
+}
+
+.school-marker-icon,
+.home-marker-icon {
+  background: transparent;
+  border: none;
+}

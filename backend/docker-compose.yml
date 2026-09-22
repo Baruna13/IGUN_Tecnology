@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgis/postgis:16-3.5-alpine
+    container_name: smart-school-finder-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ssf
+      POSTGRES_PASSWORD: ssf_local_dev
+      POSTGRES_DB: smart_school_finder
+    ports:
+      - "5432:5432"
+    volumes:
+      - ssf_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ssf -d smart_school_finder"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ssf_pgdata:

@@ -1,0 +1,65 @@
+// Prisma schema for Smart School Finder
+// Database: PostgreSQL with the PostGIS extension enabled (see docker-compose.yml,
+// which uses the postgis/postgis image). Geometry is currently stored as GeoJSON
+// inside Json/Float columns rather than a native PostGIS `geometry` column --
+// this keeps Prisma's type-safe client fully usable today. Once the app needs
+// server-side spatial queries (ST_DWithin, ST_Intersects, etc.) instead of the
+// current Turf.js-in-application-code approach, add a native geometry column via
+// a raw SQL migration and query it with $queryRaw; PostGIS is already there and
+// ready for that upgrade.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SchoolLevel {
+  SMA
+  SMK
+}
+
+enum SchoolStatus {
+  NEGERI
+  SWASTA
+}
+
+enum Accreditation {
+  A
+  B
+  C
+}
+
+model School {
+  id                  String        @id @default(cuid())
+  slug                String        @unique
+  name                String
+  npsn                String        @unique
+  level               SchoolLevel   @default(SMA)
+  status              SchoolStatus  @default(NEGERI)
+  address             String
+  district            String
+  accreditation       Accreditation
+  accreditationScore  Int
+  quota               Int
+  zoneRadiusMeters    Int           @default(1500)
+  longitude           Float
+  latitude            Float
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@map("schools")
+}
+
+model AdminBoundary {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  /// GeoJSON Polygon geometry, e.g. { "type": "Polygon", "coordinates": [...] }
+  geometry  Json
+  createdAt DateTime @default(now())
+
+  @@map("admin_boundaries")
+}

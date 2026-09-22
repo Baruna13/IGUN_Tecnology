@@ -1,0 +1,446 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 1 Bogor",
+        "npsn": "20220342",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Tengah",
+        "subdistrict": "Paledang",
+        "address": "Kel. Paledang, Kec. Bogor Tengah",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7933,
+          -6.5974
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 10 Bogor",
+        "npsn": "20220341",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Barat",
+        "subdistrict": "Curug Mekar",
+        "address": "Kel. Curug Mekar, Kec. Bogor Barat",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7653,
+          -6.5598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 2 Bogor",
+        "npsn": "20238516",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tanah Sareal",
+        "subdistrict": "Sukaresmi",
+        "address": "Kel. Sukaresmi, Kec. Tanah Sareal",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7942,
+          -6.5542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 3 Bogor",
+        "npsn": "20220332",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Timur",
+        "subdistrict": "Baranangsiang",
+        "address": "Kel. Baranangsiang, Kec. Bogor Timur",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8109917,
+          -6.6072333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 4 Bogor",
+        "npsn": "20220334",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Selatan",
+        "subdistrict": "Empang",
+        "address": "Kel. Empang, Kec. Bogor Selatan",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8008,
+          -6.6161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 5 Bogor",
+        "npsn": "20238517",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Barat",
+        "subdistrict": "Menteng",
+        "address": "Kel. Menteng, Kec. Bogor Barat",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7839,
+          -6.5855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 6 Bogor",
+        "npsn": "20220335",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tanah Sareal",
+        "subdistrict": "Tanah Sareal",
+        "address": "Kel. Tanah Sareal, Kec. Tanah Sareal",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7988,
+          -6.5719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 7 Bogor",
+        "npsn": "20220336",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Utara",
+        "subdistrict": "Tegal Gundil",
+        "address": "Kel. Tegal Gundil, Kec. Bogor Utara",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8143,
+          -6.5781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 8 Bogor",
+        "npsn": "20220337",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Utara",
+        "subdistrict": "Ciparigi",
+        "address": "Kel. Ciparigi, Kec. Bogor Utara",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.82,
+          -6.5448
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 9 Bogor",
+        "npsn": "20220338",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bogor Tengah",
+        "subdistrict": "Ciwaringin",
+        "address": "Kel. Ciwaringin, Kec. Bogor Tengah",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7884,
+          -6.5926
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 1 Ciomas",
+        "npsn": "OSM-19271798",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Ciomas, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Ciomas, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.74932282282252,
+          -6.605107556184085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cileungsi",
+        "npsn": "OSM-327363963",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cileungsi, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Jl Pasar Lama N 66, Kec. Cileungsi, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.95610339950538,
+          -6.394412598669148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Citeureup",
+        "npsn": "OSM-589235481",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Citeureup, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Citeureup, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.88793005740304,
+          -6.50541998607266
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 2 Gunung Putri",
+        "npsn": "OSM-1268029261",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Gunung Putri, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Gunung Putri, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.95716872954412,
+          -6.364210245035041
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Dramaga",
+        "npsn": "OSM-1286191540",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Dramaga, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Dramaga, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.74005973527662,
+          -6.56979021045616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 1 Rancabungur",
+        "npsn": "OSM-1287231187",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Rancabungur, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Rancabungur, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.71659201049629,
+          -6.542487424996024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Ciampea",
+        "npsn": "OSM-1292528396",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Ciampea, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Ciampea, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.68958057948909,
+          -6.556154981730179
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Rumpin",
+        "npsn": "OSM-1296218248",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Rumpin, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Rumpin, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.64068444839965,
+          -6.440978926118023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Gunungsindur",
+        "npsn": "OSM-1302541075",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Gunungsindur, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Gunungsindur, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.65913631905005,
+          -6.383326966178381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Babakan Madang",
+        "npsn": "OSM-1361089469",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Babakan Madang, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Babakan Madang, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8664330287056,
+          -6.569994226264077
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 2 Cileungsi",
+        "npsn": "69926270",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cileungsi, Kab. Bogor",
+        "subdistrict": null,
+        "address": "Kec. Cileungsi, Kab. Bogor",
+        "source": "OpenStreetMap contributors (via QGIS export)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.97770894459035,
+          -6.393842829224298
+        ]
+      }
+    }
+  ]
+}

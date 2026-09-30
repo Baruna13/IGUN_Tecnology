@@ -10,7 +10,7 @@ export function FloatingHint() {
           <span className="material-symbols-outlined text-[18px]">school</span>
         </div>
         <div className="min-w-0">
-          <p className="text-body-sm font-body-sm text-on-surface font-semibold truncate">{school.name}</p>
+          <p className="text-body-sm font-body-sm text-[#1f2937] font-semibold truncate">{school.name}</p>
           <p className="text-label-sm font-label-sm text-outline truncate">Klik peta / geser pin hijau untuk atur domisili</p>
         </div>
       </div>

@@ -3,11 +3,11 @@ import { cn } from "../utils/cn";
 type Tone = "success" | "danger" | "warning" | "primary" | "neutral";
 
 const TONE_CLASSES: Record<Tone, string> = {
-  success: "bg-secondary/15 text-secondary",
-  danger: "bg-error-container/40 text-error",
-  warning: "bg-tertiary/15 text-tertiary",
-  primary: "bg-primary-container/20 text-primary",
-  neutral: "bg-surface-container text-on-surface-variant",
+  success: "bg-[#dcfce7] text-[#166534]",
+  danger: "bg-[#ffedd5] text-[#7c2d12]",
+  warning: "bg-[#fef3c7] text-[#854d0e]",
+  primary: "bg-[#dcfce7] text-[#166534]",
+  neutral: "bg-[#f0fdf4] text-[#1f2937]",
 };
 
 export function Badge({

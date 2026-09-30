@@ -9,7 +9,7 @@ export function MapControlsDock() {
   const toggleLayersPanel = useSchoolFinderStore((s) => s.toggleLayersPanel);
 
   return (
-    <div className="absolute top-space-sm sm:top-space-md right-space-sm sm:right-space-md z-[1000] flex flex-col gap-space-2xs p-space-2xs glass-panel rounded-2xl">
+    <div className="absolute top-1/2 -translate-y-1/2 left-space-sm sm:left-space-md z-[1000] flex flex-col gap-space-2xs p-space-2xs glass-panel rounded-2xl">
       <button className="hud-button" title="Perbesar" onClick={() => map.zoomIn()}>
         <span className="material-symbols-outlined text-[20px]">add</span>
       </button>

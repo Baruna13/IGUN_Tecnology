@@ -14,7 +14,7 @@ export function LayersPanel() {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-space-sm sm:top-space-md right-[4.25rem] sm:right-20 z-[1000] w-64 p-space-md glass-panel rounded-2xl flex flex-col gap-space-sm">
+    <div className="absolute top-1/2 -translate-y-1/2 left-[4.25rem] sm:left-20 z-[1000] w-64 max-w-[calc(100vw-5rem)] p-space-md glass-panel rounded-2xl flex flex-col gap-space-sm">
       <div className="flex items-center justify-between">
         <span className="font-headline-sm text-headline-sm text-on-surface">Layer Spasial</span>
         <span className="material-symbols-outlined text-outline text-[16px]">tune</span>

@@ -25,6 +25,7 @@ function FlyToSelection({ school }: { school: School }) {
   useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;
+      map.setView(toLatLng(school.coordinates), 15.5, { animate: true });
       return;
     }
     map.flyTo(toLatLng(school.coordinates), 15.5, { duration: 1.1 });
@@ -90,7 +91,7 @@ export function MapView() {
       {layers.adminBoundary && boundariesQuery.data && (
         <GeoJSON
           data={boundariesQuery.data}
-          style={{ color: "#424754", weight: 1.5, dashArray: "6,4", fillColor: "#151b2a", fillOpacity: 0.25 }}
+          style={{ color: "transparent", weight: 0, fillColor: "transparent", fillOpacity: 0 }}
         />
       )}
 

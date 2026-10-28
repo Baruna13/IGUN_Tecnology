@@ -77,63 +77,387 @@
   display: none;
 }
 
+
 .school-marker-icon,
 .home-marker-icon {
   background: transparent;
   border: none;
 }
 
-.home-page {
-  --home-ink: #002113;
-  --home-muted: #52665a;
-  --home-green: #006c46;
-  --home-bright: #00b074;
-  --home-line: rgba(0, 108, 70, 0.14);
-  background: radial-gradient(circle at 76% 8%, rgba(160, 243, 153, 0.34), transparent 28rem), #e8ffef;
+/* ============================================================
+   HOMEPAGE — pixel-perfect sesuai Figma EduZONE
+   ============================================================ */
+
+/* ── Variabel & Root ── */
+.pg {
+  --g: #1db87a;       /* hijau aksen */
+  --gd: #0e9e64;      /* hijau gelap */
+  --dark: #2b3330;    /* card dark */
+  --darker: #1e2825;  /* footer */
+  --ink: #111;
+  --muted: #555;
+  --line: rgba(0,0,0,.08);
   font-family: "Plus Jakarta Sans", sans-serif;
+  background: #fff;
+  color: var(--ink);
 }
-.page-frame { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
-.home-header { height: 76px; padding: 0 max(24px, calc((100vw - 1180px) / 2)); display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--home-line); background: rgba(232, 255, 239, 0.78); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 10; }
-.brand-mark { display: flex; align-items: center; gap: 10px; color: var(--home-ink); text-decoration: none; }
-.brand-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; color: white; background: var(--home-green); box-shadow: 0 8px 18px rgba(0, 108, 70, .2); }
-.brand-mark strong, .brand-mark small { display: block; }
-.brand-mark strong { font: 700 18px/1 "Space Grotesk", sans-serif; letter-spacing: .02em; }
-.brand-mark small { margin-top: 4px; color: var(--home-green); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.home-nav { display: flex; gap: 26px; margin-left: auto; }
-.home-nav a { color: var(--home-muted); font-size: 12px; font-weight: 700; text-decoration: none; }
-.home-nav a:hover, .home-nav a.is-active { color: var(--home-green); }
-.home-nav a.is-active { padding-bottom: 5px; border-bottom: 2px solid var(--home-bright); }
-.home-nav-action, .button { border: 0; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 700 12px/1 "Plus Jakarta Sans", sans-serif; transition: transform .2s, box-shadow .2s, background .2s; }
-.home-nav-action { padding: 11px 15px; color: var(--home-green); background: white; border: 1px solid var(--home-line); }
-.home-nav-action:hover, .button:hover { transform: translateY(-2px); }
-.home-hero { display: grid; grid-template-columns: 1fr .92fr; align-items: center; gap: 68px; padding-top: 86px; padding-bottom: 74px; }
-.hero-copy { max-width: 580px; }
-.eyebrow, .section-kicker { color: var(--home-green); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--home-line); background: rgba(255,255,255,.6); border-radius: 999px; }
-.status-dot, .live-dot { width: 7px; height: 7px; display: inline-block; border-radius: 50%; background: var(--home-bright); box-shadow: 0 0 0 4px rgba(0,176,116,.13); }
-.hero-copy h1 { max-width: 600px; margin: 22px 0 18px; color: var(--home-ink); font: 700 clamp(42px, 5vw, 68px)/1.02 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
-.hero-copy h1 em { color: var(--home-green); font-style: normal; }
-.hero-lead { max-width: 520px; margin: 0; color: var(--home-muted); font-size: 16px; line-height: 1.8; }
-.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: 30px; }
-.button { padding: 15px 18px; }
-.button-primary { color: white; background: var(--home-green); box-shadow: 0 10px 20px rgba(0,108,70,.2); }
-.button-primary:hover { background: #005a3a; }
-.button-light { color: var(--home-green); background: white; }
-.text-link { display: inline-flex; align-items: center; gap: 7px; padding: 0; color: var(--home-green); background: none; border: 0; cursor: pointer; font: 700 12px/1.5 "Plus Jakarta Sans", sans-serif; text-decoration: none; }
-.text-link .material-symbols-outlined { font-size: 16px; }
-.hero-note { display: flex; align-items: center; gap: 7px; margin-top: 24px; color: var(--home-muted); font-size: 11px; }
-.hero-note .material-symbols-outlined { color: var(--home-green); font-size: 16px; }
-.hero-map-card { padding: 12px; border: 1px solid rgba(0,108,70,.2); border-radius: 18px; background: #fff; box-shadow: 0 22px 55px rgba(0, 85, 50, .13); transform: rotate(1.5deg); }
-.map-card-toolbar, .map-card-footer { display: flex; justify-content: space-between; align-items: center; padding: 8px 9px; color: var(--home-muted); font: 600 10px/1.4 "JetBrains Mono", monospace; }
-.map-card-toolbar > span:first-child, .map-card-footer > span:first-child { display: inline-flex; align-items: center; gap: 8px; }
-.coordinate-chip { padding: 4px 7px; border: 1px solid var(--home-line); border-radius: 5px; color: var(--home-green); }
-.map-illustration { position: relative; height: 340px; overflow: hidden; border-radius: 11px; background: #c9e8cd; background-image: linear-gradient(32deg, transparent 47%, rgba(255,255,255,.7) 48%, transparent 49%), linear-gradient(120deg, transparent 48%, rgba(78,133,92,.18) 49%, transparent 50%); background-size: 100px 78px, 150px 110px; }
-.map-grid { position: absolute; inset: 0; opacity: .28; background-image: linear-gradient(rgba(0,108,70,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(0,108,70,.18) 1px, transparent 1px); background-size: 38px 38px; }
-.contour { position: absolute; border: 1px solid rgba(0,108,70,.23); border-radius: 46% 54% 62% 38%; transform: rotate(-20deg); }
-.contour-one { width: 360px; height: 220px; left: -30px; top: 55px; }.contour-two { width: 260px; height: 170px; left: 58px; top: 82px; }
-.zone { position: absolute; border: 2px solid rgba(0,108,70,.65); border-radius: 50%; background: rgba(0,176,116,.14); }.zone-large { width: 230px; height: 230px; left: 95px; top: 42px; }.zone-small { width: 114px; height: 114px; left: 153px; top: 100px; border-color: rgba(0,108,70,.9); background: rgba(160,243,153,.3); }
-.map-route { position: absolute; width: 142px; height: 2px; left: 183px; top: 184px; background: var(--home-green); transform: rotate(-28deg); transform-origin: left; }.map-route::after { content: "842 m"; position: absolute; right: -34px; top: -18px; color: var(--home-green); font: 500 10px "JetBrains Mono", monospace; }
-.map-pin { position: absolute; z-index: 2; width: 31px; height: 31px; display: grid; place-items: center; border: 3px solid white; border-radius: 50%; color: white; box-shadow: 0 5px 12px rgba(0,0,0,.2); }.map-pin .material-symbols-outlined { font-size: 16px; }.school-pin { left: 162px; top: 169px; background: var(--home-green); }.home-pin { left: 300px; top: 101px; background: #d76634; }.map-label { position: absolute; z-index: 3; padding: 5px 7px; border-radius: 5px; background: rgba(255,255,255,.92); color: var(--home-ink); font-size: 10px; font-weight: 700; box-shadow: 0 3px 8px rgba(0,0,0,.1); }.school-label { left: 112px; top: 207px; }.home-label { left: 277px; top: 73px; }.map-scale { position: absolute; bottom: 14px; left: 16px; color: var(--home-green); font: 500 10px "JetBrains Mono", monospace; }.map-scale span { display: inline-block; width: 42px; margin-right: 5px; border-top: 2px solid var(--home-green); }.map-compass { position: absolute; right: 16px; bottom: 14px; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--home-line); border-radius: 50%; color: var(--home-green); background: rgba(255,255,255,.7); font: 700 11px "JetBrains Mono", monospace; }
-.stats-strip { display: grid; grid-template-columns: repeat(3, 1fr) 1.35fr; gap: 20px; align-items: center; padding: 24px 0; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }.stats-strip > div:not(.stats-status) { display: flex; align-items: center; gap: 12px; border-right: 1px solid var(--home-line); }.stat-value { color: var(--home-green); font: 700 32px/1 "Space Grotesk", sans-serif; }.stat-label { color: var(--home-muted); font-size: 10px; line-height: 1.5; }.stats-status { display: flex; align-items: center; justify-content: flex-end; gap: 10px; color: var(--home-green); }.stats-status > .material-symbols-outlined { font-size: 27px; }.stats-status strong, .stats-status small { display: block; }.stats-status strong { color: var(--home-ink); font: 700 13px "Space Grotesk", sans-serif; }.stats-status small { margin-top: 3px; color: var(--home-muted); font-size: 10px; }
-.insight-section, .directory-section { padding: 110px 0; }.section-heading { max-width: 560px; }.section-heading h2, .directory-heading h2, .home-cta h2 { margin: 13px 0 10px; color: var(--home-ink); font: 600 clamp(28px, 4vw, 44px)/1.1 "Space Grotesk", sans-serif; letter-spacing: -.03em; }.section-heading p, .home-cta p { margin: 0; color: var(--home-muted); font-size: 14px; line-height: 1.7; }.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 42px; }.feature-panel { min-height: 220px; position: relative; padding: 24px; border-top: 3px solid #a0f399; background: rgba(255,255,255,.54); }.feature-panel-accent { border-top-color: var(--home-bright); }.feature-number { color: rgba(0,108,70,.35); font: 700 28px "Space Grotesk", sans-serif; }.feature-icon { display: block; margin-top: 30px; color: var(--home-green); font-size: 27px; }.feature-panel h3 { margin: 14px 0 9px; color: var(--home-ink); font: 600 19px "Space Grotesk", sans-serif; }.feature-panel p { margin: 0; color: var(--home-muted); font-size: 12px; line-height: 1.7; }.directory-section { padding-top: 0; }.directory-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; }.school-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }.school-preview { display: flex; align-items: center; gap: 12px; padding: 15px; border: 1px solid var(--home-line); border-radius: 10px; background: rgba(255,255,255,.7); text-align: left; cursor: pointer; }.school-preview:hover { border-color: var(--home-bright); }.school-avatar { display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px; border-radius: 10px; color: var(--home-green); background: #d7fce5; }.avatar-2 { background: #d4eee0; }.avatar-3 { background: #e5f4d5; }.school-avatar .material-symbols-outlined { font-size: 21px; }.school-preview-copy { min-width: 0; flex: 1; }.school-preview-copy strong, .school-preview-copy small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.school-preview-copy strong { color: var(--home-ink); font: 600 14px "Space Grotesk", sans-serif; }.school-preview-copy small { margin-top: 5px; color: var(--home-muted); font-size: 10px; }.school-arrow { color: var(--home-green); font-size: 18px; }.home-cta { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 44px 48px; border-radius: 16px; background: var(--home-green); box-shadow: 0 18px 38px rgba(0,108,70,.18); }.home-cta h2, .home-cta p, .home-cta .section-kicker { color: white; }.home-cta p { max-width: 550px; opacity: .78; }.home-cta .section-kicker { opacity: .7; }.home-footer { display: flex; justify-content: space-between; padding: 24px 0 30px; color: var(--home-muted); font: 500 10px "JetBrains Mono", monospace; }
-@media (max-width: 800px) { .home-header { height: 68px; padding-inline: 16px; }.home-nav { display: none; }.home-nav-action { padding: 10px; font-size: 0; }.home-nav-action .material-symbols-outlined { font-size: 20px; }.page-frame { width: min(100% - 32px, 600px); }.home-hero { grid-template-columns: 1fr; gap: 42px; padding-top: 58px; padding-bottom: 50px; }.hero-copy h1 { font-size: clamp(39px, 12vw, 56px); }.hero-map-card { transform: none; }.map-illustration { height: 280px; }.stats-strip { grid-template-columns: repeat(2, 1fr); gap: 18px 10px; }.stats-strip > div:not(.stats-status) { border-right: 0; }.stats-status { justify-content: flex-start; grid-column: 1 / -1; padding-top: 10px; border-top: 1px solid var(--home-line); }.insight-section, .directory-section { padding: 70px 0; }.feature-grid, .school-preview-grid { grid-template-columns: 1fr; }.directory-heading { align-items: flex-start; flex-direction: column; }.home-cta { align-items: flex-start; flex-direction: column; padding: 30px 24px; }.home-footer { align-items: flex-start; flex-direction: column; gap: 8px; } }
+
+/* max-width wrapper */
+.pg-w {
+  width: calc(100% - 48px);
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+/* ── NAVBAR — putih, terpisah dari hero ── */
+.pg-nav {
+  position: sticky; top: 0; z-index: 50;
+  height: 72px;
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fff;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.12);
+}
+.pg-brand img { height: 72px; width: auto; display: block; }
+.pg-nav nav { display: flex; gap: 32px; }
+.pg-navlink {
+  font: 700 18px/1 "Karla", "Plus Jakarta Sans", sans-serif;
+  color: #7E8482; text-decoration: none;
+  letter-spacing: -0.03em;
+  transition: color .15s;
+}
+.pg-navlink:hover { color: #008D55; }
+.pg-navlink.active {
+  color: #008D55;
+  padding-bottom: 4px;
+  border-bottom: 3px solid #008D55;
+}
+.pg-brand img { height: 38px; width: auto; display: block; }
+.pg-nav nav { display: flex; gap: 28px; }
+.pg-navlink {
+  font: 600 13px/1 "Plus Jakarta Sans", sans-serif;
+  color: #555; text-decoration: none;
+  transition: color .15s;
+}
+.pg-navlink:hover { color: var(--gd); }
+.pg-navlink.active {
+  color: var(--gd);
+  padding-bottom: 3px;
+  border-bottom: 2px solid var(--g);
+}
+
+/* ── HERO WRAP — margin kecil dari kiri-kanan ── */
+.pg-hero-wrap {
+  padding: 16px 24px 24px;
+  background: #fff;
+}
+
+/* ── HERO — box dengan rounded corners, foto globe ── */
+.pg-hero {
+  position: relative;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pg-hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.18) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.72) 100%),
+    url("/images/hero-map.jpeg") center/cover no-repeat;
+  border-radius: 20px;
+}
+.pg-hero-body {
+  position: relative; z-index: 2;
+  padding: 0 48px;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pg-hero-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+/* Icon toga/mortarboard */
+.pg-hero-cap {
+  font-size: 72px;
+  color: #fff;
+  filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.25));
+}
+/* "Education" — Allerta Stencil style */
+.pg-hero-body h1 {
+  font: 400 clamp(42px, 7vw, 80px)/1 "Allerta Stencil", "Space Grotesk", sans-serif;
+  color: #fff;
+  letter-spacing: -0.06em;
+  margin: 0;
+  text-shadow: 0px 10px 5px rgba(0,0,0,0.25);
+}
+/* "ZONE" bagian hijau */
+.pg-hero-brand {
+  font-family: "Belanosima", "Space Grotesk", sans-serif;
+  font-weight: 400;
+  color: #00B38C;
+  letter-spacing: -0.05em;
+}
+/* Lingkaran "O" */
+.pg-hero-o {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: .68em; height: .68em; border-radius: 50%;
+  background: #00B38C; color: #fff; font-size: .82em;
+  vertical-align: middle; margin: 0 1px;
+}
+.pg-hero-body > p {
+  color: rgba(255,255,255,.82);
+  font: 700 15px/1.7 "Inter", sans-serif;
+  margin: 0;
+  max-width: 680px;
+  text-align: center;
+  text-shadow: 0px 4px 4px #000;
+}
+
+/* ── GIS CARD (box dengan gap di kiri-kanan & atas-bawah) ── */
+.pg-gis-wrap {
+  background: #fff;
+  padding: 0 24px 24px;
+}
+.pg-gis-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: center;
+  background: var(--dark);
+  border-radius: 12px;
+  padding: 36px;
+}
+.pg-gis-copy h2 {
+  font: 600 20px/1.3 "Space Grotesk", sans-serif;
+  color: #ddeae4; margin: 0 0 12px; letter-spacing: -.02em;
+}
+.pg-gis-copy p {
+  font-size: 12.5px; line-height: 1.75;
+  color: #7fa898; margin: 0 0 24px;
+}
+.pg-gis-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px;
+  background: var(--g); color: #fff;
+  border: none; border-radius: 8px;
+  font: 700 12.5px/1 "Plus Jakarta Sans", sans-serif;
+  cursor: pointer; transition: background .2s, transform .15s;
+}
+.pg-gis-btn:hover { background: var(--gd); transform: translateY(-1px); }
+.pg-gis-btn .material-symbols-outlined { font-size: 17px; }
+
+/* Preview peta */
+.pg-map-preview {
+  border-radius: 10px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 4px 24px rgba(0,0,0,.3);
+}
+.pg-map-bg {
+  position: relative; height: 260px;
+  background: #b8d4be;
+  background-image:
+    linear-gradient(30deg, transparent 47%, rgba(255,255,255,.45) 48%, transparent 49%),
+    linear-gradient(110deg, transparent 48%, rgba(80,130,90,.15) 49%, transparent 50%);
+  background-size: 70px 55px, 110px 80px;
+}
+.pg-mg {
+  position: absolute; inset: 0; opacity: .25;
+  background-image:
+    linear-gradient(rgba(0,80,50,.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,80,50,.2) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.pg-mc {
+  position: absolute;
+  border: 1px solid rgba(0,80,50,.28);
+  border-radius: 46% 54% 62% 38%; transform: rotate(-15deg);
+}
+.pg-mc1 { width: 320px; height: 180px; left: -20px; top: 30px; }
+.pg-mc2 { width: 230px; height: 135px; left: 42px; top: 58px; }
+.pg-mz {
+  position: absolute; border-radius: 50%;
+  border: 2px solid rgba(0,100,60,.55);
+}
+.pg-mz1 { width: 190px; height: 190px; left: 72px; top: 22px; background: rgba(0,150,90,.08); }
+.pg-mz2 { width: 100px; height: 100px; left: 117px; top: 68px; background: rgba(100,220,150,.18); border-color: rgba(0,100,60,.8); }
+.pg-mr  { position: absolute; height: 2px; background: rgba(255,255,255,.5); }
+.pg-mr1 { width: 145px; left: 85px; top: 148px; transform: rotate(-10deg); }
+.pg-mr2 { width: 96px;  left: 187px; top: 106px; transform: rotate(32deg); transform-origin: left; }
+.pg-mp  {
+  position: absolute; z-index: 2;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border: 2.5px solid #fff; border-radius: 50%;
+  color: #fff; box-shadow: 0 3px 10px rgba(0,0,0,.3);
+}
+.pg-mp .material-symbols-outlined { font-size: 14px; }
+.pg-mp-s { left: 128px; top: 118px; background: #0e6640; }
+.pg-mp-h { left: 242px; top: 78px;  background: #b84020; }
+.pg-mscale {
+  position: absolute; bottom: 9px; left: 11px;
+  color: #1a3a28; font: 500 9px "JetBrains Mono", monospace;
+  display: flex; align-items: center; gap: 4px;
+}
+.pg-mscale span { display: inline-block; width: 30px; border-top: 2px solid #1a3a28; }
+
+/* ── KENAPA EDUZONE ── */
+.pg-why {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  padding: 60px 0 64px;
+  align-items: start;
+}
+.pg-kicker {
+  display: block;
+  font: 700 10.5px/1 "Plus Jakarta Sans", sans-serif;
+  color: var(--gd); letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.pg-why-left h2 {
+  font: 700 clamp(26px, 3.8vw, 38px)/1.12 "Space Grotesk", sans-serif;
+  color: #111; letter-spacing: -.03em; margin: 0 0 14px;
+}
+.pg-why-left > p {
+  font-size: 12.5px; line-height: 1.8; color: #444; margin: 0 0 28px;
+}
+
+/* Stats */
+.pg-stats {
+  display: flex; gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+.pg-stat { display: flex; align-items: center; gap: 9px; }
+.pg-stat strong {
+  font: 700 24px/1 "Space Grotesk", sans-serif; color: #111;
+}
+.pg-stat span {
+  font-size: 10px; line-height: 1.4; color: #666;
+}
+
+/* Kota Bogor */
+.pg-city {
+  display: flex; align-items: center; gap: 10px; color: #444;
+}
+.pg-city .material-symbols-outlined { font-size: 34px; color: #5a7060; }
+.pg-city strong { display: block; font: 600 13px "Space Grotesk", sans-serif; color: #111; }
+.pg-city small  { display: block; font-size: 11px; color: #666; margin-top: 2px; }
+
+/* Feature cards — DARK sesuai Figma */
+.pg-why-right { display: flex; flex-direction: column; gap: 10px; }
+.pg-feat {
+  display: grid;
+  grid-template-columns: 28px 28px 1fr;
+  gap: 10px; align-items: start;
+  padding: 16px 18px;
+  background: var(--dark);
+  border-radius: 8px;
+}
+.pg-feat-num {
+  font: 700 12px/1 "Space Grotesk", sans-serif;
+  color: var(--g); padding-top: 2px;
+}
+.pg-feat-icon { font-size: 17px; color: #80c0a0; padding-top: 1px; }
+.pg-feat h3 {
+  font: 600 12.5px/1.2 "Space Grotesk", sans-serif;
+  color: #d8e8de; margin: 0 0 5px;
+}
+.pg-feat p {
+  font-size: 11.5px; line-height: 1.6; color: #6a9a80; margin: 0;
+}
+
+/* ── SEKOLAH TERDEKAT ── */
+.pg-schools { padding: 0 0 64px; }
+.pg-schools-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 20px; margin-bottom: 24px;
+}
+.pg-schools-head h2 {
+  font: 600 clamp(20px, 2.8vw, 28px)/1.2 "Space Grotesk", sans-serif;
+  color: #111; letter-spacing: -.02em; margin: 6px 0 4px;
+}
+.pg-schools-head p { font-size: 11.5px; color: #666; margin: 0; }
+.pg-textbtn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  font: 700 11.5px/1 "Plus Jakarta Sans", sans-serif;
+  color: var(--gd); white-space: nowrap; transition: color .15s;
+}
+.pg-textbtn:hover { color: var(--g); }
+.pg-textbtn .material-symbols-outlined { font-size: 14px; }
+.pg-sgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.pg-scard {
+  display: flex; align-items: center; gap: 11px;
+  padding: 14px; border: 1px solid var(--line); border-radius: 9px;
+  background: #fff; cursor: pointer; text-align: left;
+  transition: border-color .15s, box-shadow .15s;
+}
+.pg-scard:hover { border-color: var(--g); box-shadow: 0 3px 12px rgba(0,100,60,.1); }
+.pg-savatar {
+  display: grid; place-items: center;
+  width: 40px; height: 40px; flex: 0 0 40px;
+  border-radius: 9px; color: var(--gd); background: #d4f0e4;
+}
+.pg-sa2 { background: #d0e8de; }
+.pg-sa3 { background: #e0f0d0; }
+.pg-savatar .material-symbols-outlined { font-size: 19px; }
+.pg-scopy { min-width: 0; flex: 1; }
+.pg-scopy strong, .pg-scopy small {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pg-scopy strong { font: 600 12.5px "Space Grotesk", sans-serif; color: #111; }
+.pg-scopy small  { margin-top: 4px; font-size: 10.5px; color: #666; }
+.pg-sarrow { color: var(--gd); font-size: 16px; }
+
+/* ── FOOTER DARK ── */
+.pg-footer { background: #595959; padding: 32px 0 0; }
+.pg-footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 0;
+}
+.pg-footer-city {
+  display: flex; align-items: center; gap: 10px;
+}
+.pg-footer-city .material-symbols-outlined { font-size: 32px; color: #7a9a80; }
+.pg-footer-city strong { display: block; font: 600 13px "Space Grotesk", sans-serif; color: #c0d5c5; }
+.pg-footer-city small  { display: block; font-size: 11px; color: #7a9a80; margin-top: 1px; }
+.pg-footer-brand {
+  display: flex; align-items: center; gap: 6px;
+}
+.pg-footer-grad-icon { font-size: 22px; color: #c0d5c5; }
+.pg-footer-logo {
+  height: 22px; width: auto;
+  filter: brightness(0) invert(1) opacity(.7);
+}
+.pg-footer-line {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,.12);
+  margin-top: 16px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 760px) {
+  .pg-nav nav { display: none; }
+  .pg-hero { height: 240px; }
+  .pg-gis-card { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; }
+  .pg-why { grid-template-columns: 1fr; gap: 36px; padding: 44px 0 48px; }
+  .pg-stats { flex-wrap: wrap; gap: 14px; }
+  .pg-sgrid { grid-template-columns: 1fr; }
+  .pg-schools-head { flex-direction: column; align-items: flex-start; }
+}

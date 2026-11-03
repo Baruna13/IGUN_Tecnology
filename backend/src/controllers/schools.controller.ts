@@ -14,7 +14,8 @@ export async function listSchools(_req: Request, res: Response, next: NextFuncti
 
 export async function getSchoolById(req: Request, res: Response, next: NextFunction) {
   try {
-    const school = await prisma.school.findUnique({ where: { id: req.params.id } });
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const school = await prisma.school.findUnique({ where: { id } });
     if (!school) {
       res.status(404).json({ error: `School ${req.params.id} not found` });
       return;

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { ADDRESS_SUGGESTIONS } from "../data/addresses";
 import { useSchoolFinderStore } from "../hooks/useSchoolFinderStore";
+import { useTutorialStore } from "../features/tutorial/useTutorialStore";
 
 // === TIPE DATA — KASIH TAU TYPESCRIPT BENTUK DATANYA ===
 type School = {
@@ -19,6 +20,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
   const schools = useSchoolFinderStore((s) => s.schools) as School[];
   const selectSchool = useSchoolFinderStore((s) => s.selectSchool);
   const setHome = useSchoolFinderStore((s) => s.setHome);
+  const openTutorial = useTutorialStore((s) => s.openTutorial);
 
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"school" | "address">("school");
@@ -75,15 +77,18 @@ export function TopNav({ onHome }: { onHome: () => void }) {
 
         {/* === PENCARIAN === */}
         <div className="flex-1 max-w-xl relative">
-          <div className="flex items-center bg-gray-50/80 dark:bg-gray-800/50 rounded-xl px-space-sm h-10 gap-space-xs border border-gray-200/60 dark:border-gray-700/40">
-            <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[18px]">search</span>
+          <div
+            id="tutorial-search-bar"
+            className="flex items-center bg-gray-50/90 dark:bg-gray-800/80 rounded-full px-4 h-11 gap-space-xs border border-gray-300 dark:border-gray-600 shadow-sm transition-all"
+          >
+            <span className="material-symbols-outlined text-gray-500 dark:text-gray-400 text-[18px]">search</span>
 
-            <div className="flex text-label-sm font-label-sm shrink-0 gap-1 pr-space-xs border-r border-gray-200/60 dark:border-gray-700/40 mr-space-xs">
+            <div className="flex text-label-sm font-label-sm shrink-0 gap-1 pr-space-xs border-r border-gray-300 dark:border-gray-600 mr-space-xs">
               <button
                 onClick={() => setMode("school")}
                 className={
                   mode === "school"
-                    ? "text-emerald-600 dark:text-emerald-400 font-semibold"
+                    ? "text-[#00B38C] dark:text-[#00B38C] font-semibold"
                     : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 }
               >
@@ -94,7 +99,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                 onClick={() => setMode("address")}
                 className={
                   mode === "address"
-                    ? "text-emerald-600 dark:text-emerald-400 font-semibold"
+                    ? "text-[#00B38C] dark:text-[#00B38C] font-semibold"
                     : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 }
               >
@@ -109,7 +114,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
               onBlur={() => setTimeout(() => setIsOpen(false), 120)}
               placeholder={
                 mode === "school"
-                  ? "Cari sekolah negeri..."
+                  ? "Cari Sekolah Negeri..."
                   : "Cari alamat domisili..."
               }
               className="bg-transparent w-full text-body-md text-gray-700 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none"
@@ -118,7 +123,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
 
           {/* === HASIL PENCARIAN === */}
           {isOpen && results.length > 0 && (
-            <div className="absolute top-12 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-xl p-space-2xs overflow-hidden shadow-lg border border-gray-200/60 dark:border-gray-700/40">
+            <div className="absolute top-12 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl p-space-2xs overflow-hidden shadow-xl border border-gray-200/80 dark:border-gray-700/40 z-50">
               {mode === "school"
                 ? (results as School[]).map((school) => (
                     <button
@@ -128,7 +133,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                         setQuery("");
                         setIsOpen(false);
                       }}
-                      className="w-full text-left px-space-sm py-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex flex-col gap-0.5"
+                      className="w-full text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex flex-col gap-0.5"
                     >
                       <span className="text-body-sm font-medium text-gray-800 dark:text-gray-100">
                         {school.name}
@@ -146,7 +151,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                         setQuery("");
                         setIsOpen(false);
                       }}
-                      className="w-full text-left px-space-sm py-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center gap-space-xs"
+                      className="w-full text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center gap-space-xs"
                     >
                       <span className="material-symbols-outlined text-[16px] text-emerald-500">home_pin</span>
                       <span className="text-body-sm text-gray-700 dark:text-gray-200">
@@ -158,25 +163,35 @@ export function TopNav({ onHome }: { onHome: () => void }) {
           )}
         </div>
 
-        {/* === PROFIL PENGGUNA === */}
+        {/* === TOMBOL PANDUAN & PROFIL PENGGUNA === */}
         <div className="flex items-center gap-3 shrink-0">
           <button
-            className="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
+            type="button"
+            onClick={openTutorial}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 font-semibold text-xs transition-all border border-emerald-200 dark:border-emerald-800 shadow-sm cursor-pointer"
+            title="Buka Panduan Tutorial Pengguna Baru"
+          >
+            <span className="material-symbols-outlined text-[16px]">help</span>
+            <span className="hidden sm:inline">Panduan</span>
+          </button>
+
+          <button
+            className="w-9 h-9 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
             title="Notifikasi"
           >
             <span className="material-symbols-outlined text-[20px]">notifications</span>
           </button>
 
           <div className="flex items-center gap-3 pl-3 border-l border-gray-200/60 dark:border-gray-700/40">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
-              Ez
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
+              CS
             </div>
             <div className="hidden md:flex flex-col leading-tight">
               <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                EduZONE Pengguna
+                Calon Siswa
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400">
-                Kota Bogor
+                Domisili Bogor
               </span>
             </div>
           </div>

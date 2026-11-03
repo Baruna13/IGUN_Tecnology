@@ -6,6 +6,8 @@ import { formatDistance } from "../../services/spatialAnalysis";
 import { RecommendationCard } from "../recommendation/RecommendationCard";
 import { RadiusSlider } from "./RadiusSlider";
 import { cn } from "../../utils/cn";
+import { useTutorialStore, TUTORIAL_STEPS } from "../tutorial/useTutorialStore";
+
 export function AnalysisPanel() {
   const school = useSchoolFinderStore((s) => s.getSelectedSchool());
   const eligibility = useEligibility();
@@ -13,9 +15,26 @@ export function AnalysisPanel() {
   const selectSchool = useSchoolFinderStore((s) => s.selectSchool);
   const home = useSchoolFinderStore((s) => s.home);
   const [mobileExpanded, setMobileExpanded] = useState(false);
-  const marginLabel = eligibility.isEligible
+
+  const isTutorialOpen = useTutorialStore((s) => s.isOpen);
+  const currentStep = useTutorialStore((s) => s.currentStep);
+  const activeStepId = isTutorialOpen ? TUTORIAL_STEPS[currentStep]?.id : null;
+
+  const isSimulatedGreen = activeStepId === "eligibility-green";
+  const isSimulatedRed = activeStepId === "eligibility-red";
+
+  const isEligibleEffective = isSimulatedGreen
+    ? true
+    : isSimulatedRed
+    ? false
+    : eligibility.isEligible;
+
+  const marginLabel = isSimulatedRed
+    ? "+1.02 km Headroom"
+    : isEligibleEffective
     ? `+${formatDistance(eligibility.marginMeters)} headroom`
     : `${formatDistance(Math.abs(eligibility.marginMeters))} melebihi batas`;
+
   return (
     <div
       className={cn(
@@ -63,11 +82,12 @@ export function AnalysisPanel() {
         </div>
 
         <div
+          id="tutorial-eligibility-box"
           className={cn(
-            "p-space-md rounded-xl flex flex-col gap-space-sm",
-            eligibility.isEligible
+            "p-space-md rounded-xl flex flex-col gap-space-sm transition-all duration-300",
+            isEligibleEffective
               ? "bg-[#f0fdf4] border border-[#86efac]"
-              : "bg-[#ffedd5] border border-[#fdba74]"
+              : "bg-[#fee2e2] border border-[#fca5a5]"
           )}
         >
           <div className="flex items-center justify-between">
@@ -75,52 +95,88 @@ export function AnalysisPanel() {
               <span
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center",
-                  eligibility.isEligible ? "bg-[#dcfce7] text-[#166534]" : "bg-[#fed7aa] text-[#7c2d12]"
+                  isEligibleEffective ? "bg-[#dcfce7] text-[#166534]" : "bg-[#fecaca] text-[#dc2626]"
                 )}
               >
                 <span className="material-symbols-outlined text-[18px]">
-                  {eligibility.isEligible ? "check_circle" : "cancel"}
+                  {isEligibleEffective ? "check_circle" : "cancel"}
                 </span>
               </span>
               <div className="flex flex-col">
                 <span
                   className={cn(
                     "font-headline-sm text-headline-sm font-bold",
-                    eligibility.isEligible ? "text-[#166534]" : "text-[#7c2d12]"
+                    isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
                   )}
                 >
-                  {eligibility.isEligible ? "MEMENUHI SYARAT" : "TIDAK MEMENUHI SYARAT"}
+                  {isEligibleEffective ? "MEMENUHI SYARAT" : "TIDAK MEMENUHI SYARAT"}
                 </span>
                 <span className="font-label-sm text-label-sm text-[#1f2937]">Jalur Domisili SPMB</span>
               </div>
             </div>
-            <span className="font-headline-lg text-headline-lg text-[#166534] font-extrabold">
-              {eligibility.score.toFixed(1)}
+            <span
+              className={cn(
+                "font-headline-lg text-headline-lg font-extrabold",
+                isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
+              )}
+            >
+              {isEligibleEffective ? eligibility.score.toFixed(1) : "20.0"}
               <span className="font-body-sm text-body-sm text-outline font-normal">/100</span>
             </span>
           </div>
-          <div className="h-px bg-[#86efac]" />
+          <div className={cn("h-px", isEligibleEffective ? "bg-[#86efac]" : "bg-[#fca5a5]")} />
           <div className="grid grid-cols-2 gap-space-xs text-left">
-            <div className="flex flex-col bg-[#ffffff]/70 border border-[#86efac]/60 p-space-xs rounded-lg">
+            <div
+              className={cn(
+                "flex flex-col p-space-xs rounded-lg border",
+                isEligibleEffective
+                  ? "bg-[#ffffff]/70 border-[#86efac]/60"
+                  : "bg-[#ffffff]/70 border-[#fca5a5]/60"
+              )}
+            >
               <span className="font-label-sm text-label-sm text-outline">Jarak Garis Lurus</span>
-              <span className="font-headline-sm text-headline-sm text-[#166534] font-semibold mt-0.5">
+              <span
+                className={cn(
+                  "font-headline-sm text-headline-sm font-semibold mt-0.5",
+                  isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
+                )}
+              >
                 {formatDistance(eligibility.distanceMeters)}
               </span>
               <span
                 className={cn(
                   "font-label-sm text-label-sm mt-0.5",
-                  eligibility.isEligible ? "text-[#166534]" : "text-[#7c2d12]"
+                  isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
                 )}
               >
                 {marginLabel}
               </span>
             </div>
-            <div className="flex flex-col bg-[#ffffff]/70 border border-[#86efac]/60 p-space-xs rounded-lg">
+            <div
+              className={cn(
+                "flex flex-col p-space-xs rounded-lg border",
+                isEligibleEffective
+                  ? "bg-[#ffffff]/70 border-[#86efac]/60"
+                  : "bg-[#ffffff]/70 border-[#fca5a5]/60"
+              )}
+            >
               <span className="font-label-sm text-label-sm text-outline">Batas Radius Zona</span>
-              <span className="font-headline-sm text-headline-sm text-[#166534] font-semibold mt-0.5">
+              <span
+                className={cn(
+                  "font-headline-sm text-headline-sm font-semibold mt-0.5",
+                  isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
+                )}
+              >
                 {formatDistance(eligibility.radiusMeters)}
               </span>
-              <span className="font-label-sm text-label-sm text-[#166534] mt-0.5">Simulasi aktif</span>
+              <span
+                className={cn(
+                  "font-label-sm text-label-sm mt-0.5",
+                  isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
+                )}
+              >
+                {isSimulatedRed ? "+1.02 km Headroom" : "Simulasi aktif"}
+              </span>
             </div>
           </div>
           <div className="flex items-center justify-between font-label-sm text-label-sm text-[#1f2937] px-space-2xs pt-space-2xs">

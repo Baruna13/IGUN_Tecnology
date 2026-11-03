@@ -5,7 +5,7 @@ export function FloatingHint() {
 
   return (
     <div className="absolute top-space-sm sm:top-space-md left-space-sm sm:left-space-md z-[1000] max-w-[calc(100%-8rem)] sm:max-w-sm">
-      <div className="flex items-center gap-space-xs px-space-sm sm:px-space-md py-space-xs sm:py-space-sm glass-panel rounded-2xl">
+      <div id="tutorial-school-card" className="flex items-center gap-space-xs px-space-sm sm:px-space-md py-space-xs sm:py-space-sm glass-panel rounded-2xl">
         <div className="w-8 h-8 rounded-lg bg-primary-container/25 text-primary flex items-center justify-center shrink-0">
           <span className="material-symbols-outlined text-[18px]">school</span>
         </div>

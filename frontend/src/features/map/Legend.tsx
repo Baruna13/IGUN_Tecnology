@@ -7,7 +7,10 @@ const ITEMS: { color: string; label: string }[] = [
 
 export function Legend() {
   return (
-    <div className="hidden sm:flex absolute bottom-space-md left-space-md z-[1000] items-center gap-space-md px-space-md py-space-xs glass-panel rounded-full">
+    <div
+      id="tutorial-legend-bar"
+      className="hidden sm:flex absolute bottom-space-md left-space-md z-[1000] items-center gap-space-md px-space-md py-space-xs glass-panel rounded-full"
+    >
       {ITEMS.map((item) => (
         <span key={item.label} className="flex items-center gap-space-2xs text-label-sm font-label-sm text-on-surface-variant">
           <span className="w-2.5 h-2.5 rounded-full" style={{ background: item.color }} />

@@ -6,6 +6,8 @@ import { TopNav } from "./TopNav";
 import { MapErrorState, MapLoadingState } from "./MapStatusStates";
 import { useSchoolsQuery } from "../hooks/useApiQueries";
 import { useSchoolFinderStore } from "../hooks/useSchoolFinderStore";
+import { OnboardingTutorial } from "../features/tutorial/OnboardingTutorial";
+import { useTutorialStore } from "../features/tutorial/useTutorialStore";
 
 export function AppShell() {
   const [isHomeOpen, setIsHomeOpen] = useState(true);
@@ -13,6 +15,7 @@ export function AppShell() {
   const setSchools = useSchoolFinderStore((s) => s.setSchools);
   const selectSchool = useSchoolFinderStore((s) => s.selectSchool);
   const schoolsInStore = useSchoolFinderStore((s) => s.schools);
+  const openTutorial = useTutorialStore((s) => s.openTutorial);
 
   useEffect(() => {
     if (schoolsQuery.data) setSchools(schoolsQuery.data);
@@ -23,6 +26,19 @@ export function AppShell() {
     if (schoolId) selectSchool(schoolId);
     setIsHomeOpen(false);
   };
+
+  // Otomatis buka tutorial untuk pengguna baru saat pertama kali masuk ke peta
+  useEffect(() => {
+    if (!isHomeOpen && isReady) {
+      const hasCompleted = localStorage.getItem("eduzone_tutorial_completed");
+      if (!hasCompleted) {
+        const timer = setTimeout(() => {
+          openTutorial();
+        }, 600);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isHomeOpen, isReady, openTutorial]);
 
   return isHomeOpen ? (
     <HomePage schools={schoolsInStore} onOpenMap={openMap} />
@@ -41,6 +57,7 @@ export function AppShell() {
           <>
             <MapView />
             <AnalysisPanel />
+            <OnboardingTutorial />
           </>
         )}
       </div>

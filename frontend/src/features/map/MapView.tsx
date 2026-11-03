@@ -105,6 +105,7 @@ export function MapView() {
             dashArray: "5,4",
             fillColor: "#4d8eff",
             fillOpacity: 0.14,
+            className: "tutorial-buffer-zone",
           }}
         />
       )}

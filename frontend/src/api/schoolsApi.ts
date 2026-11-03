@@ -1,6 +1,8 @@
 import type { FeatureCollection, Polygon } from "geojson";
 import { apiClient } from "./client";
 import type { School, SchoolLevel, SchoolStatus } from "../types/school";
+import { SCHOOLS } from "../data/schools";
+import { ADMIN_BOUNDARIES } from "../data/adminBoundary";
 
 interface SchoolApiDTO {
   id: string;
@@ -42,8 +44,19 @@ function mapSchool(dto: SchoolApiDTO): School {
 export async function fetchSchools(): Promise<School[]> {
   const schools = await apiClient.get<SchoolApiDTO[]>("/schools");
   return schools.map(mapSchool);
+  try {
+    const schools = await apiClient.get<SchoolApiDTO[]>("/schools");
+    return schools.map(mapSchool);
+  } catch {
+    return SCHOOLS;
+  }
 }
 
 export async function fetchBoundaries(): Promise<FeatureCollection<Polygon, { name: string }>> {
   return apiClient.get<FeatureCollection<Polygon, { name: string }>>("/boundaries");
+  try {
+    return await apiClient.get<FeatureCollection<Polygon, { name: string }>>("/boundaries");
+  } catch {
+    return ADMIN_BOUNDARIES;
+  }
 }

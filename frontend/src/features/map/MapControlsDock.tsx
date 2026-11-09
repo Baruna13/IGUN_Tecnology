@@ -1,15 +1,26 @@
+import { useEffect, useRef } from "react";
+import L from "leaflet";
 import { useMap } from "react-leaflet";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
 import { cn } from "../../utils/cn";
 
 export function MapControlsDock() {
   const map = useMap();
+  const controlsRef = useRef<HTMLDivElement>(null);
   const home = useSchoolFinderStore((s) => s.home);
   const isLayersPanelOpen = useSchoolFinderStore((s) => s.isLayersPanelOpen);
   const toggleLayersPanel = useSchoolFinderStore((s) => s.toggleLayersPanel);
 
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+
+    L.DomEvent.disableClickPropagation(controls);
+    L.DomEvent.disableScrollPropagation(controls);
+  }, []);
+
   return (
-    <div className="absolute top-1/2 -translate-y-1/2 left-space-sm sm:left-space-md z-[1000] flex flex-col gap-space-2xs p-space-2xs glass-panel rounded-2xl">
+    <div ref={controlsRef} className="absolute top-1/2 -translate-y-1/2 left-space-sm sm:left-space-md z-[1000] flex flex-col gap-space-2xs p-space-2xs glass-panel rounded-2xl">
       <button className="hud-button" title="Perbesar" onClick={() => map.zoomIn()}>
         <span className="material-symbols-outlined text-[20px]">add</span>
       </button>

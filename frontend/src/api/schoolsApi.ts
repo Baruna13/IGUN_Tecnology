@@ -42,8 +42,6 @@ function mapSchool(dto: SchoolApiDTO): School {
 }
 
 export async function fetchSchools(): Promise<School[]> {
-  const schools = await apiClient.get<SchoolApiDTO[]>("/schools");
-  return schools.map(mapSchool);
   try {
     const schools = await apiClient.get<SchoolApiDTO[]>("/schools");
     return schools.map(mapSchool);
@@ -53,7 +51,6 @@ export async function fetchSchools(): Promise<School[]> {
 }
 
 export async function fetchBoundaries(): Promise<FeatureCollection<Polygon, { name: string }>> {
-  return apiClient.get<FeatureCollection<Polygon, { name: string }>>("/boundaries");
   try {
     return await apiClient.get<FeatureCollection<Polygon, { name: string }>>("/boundaries");
   } catch {

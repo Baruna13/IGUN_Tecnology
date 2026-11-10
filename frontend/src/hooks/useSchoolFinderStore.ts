@@ -13,6 +13,7 @@ interface SchoolFinderState {
   schools: School[];
   selectedSchoolId: string;
   home: HomeLocation;
+  mapFocusCoordinates: [number, number] | null;
   /** User-adjustable simulation radius (meters); null = use the school's official zone radius */
   radiusOverrideMeters: number | null;
   layers: LayerVisibility;
@@ -22,6 +23,7 @@ interface SchoolFinderState {
   setSchools: (schools: School[]) => void;
   selectSchool: (id: string) => void;
   setHome: (coordinates: [number, number], label?: string) => void;
+  focusMap: (coordinates: [number, number]) => void;
   setRadiusOverride: (meters: number) => void;
   toggleLayer: (layer: keyof LayerVisibility) => void;
   toggleLayersPanel: (open?: boolean) => void;
@@ -43,6 +45,7 @@ export const useSchoolFinderStore = create<SchoolFinderState>((set, get) => ({
   schools: [],
   selectedSchoolId: "",
   home: { coordinates: DEFAULT_HOME_COORDINATES, label: DEFAULT_HOME_LABEL },
+  mapFocusCoordinates: null,
   radiusOverrideMeters: null,
   layers: { buffer: true, adminBoundary: true, roads: true },
   isLayersPanelOpen: false,
@@ -60,6 +63,7 @@ export const useSchoolFinderStore = create<SchoolFinderState>((set, get) => ({
       home: { coordinates, label: label ?? "Titik domisili terpilih" },
       isPickingHome: false,
     }),
+  focusMap: (coordinates) => set({ mapFocusCoordinates: coordinates }),
   setRadiusOverride: (meters) => set({ radiusOverrideMeters: meters }),
   toggleLayer: (layer) => set((s) => ({ layers: { ...s.layers, [layer]: !s.layers[layer] } })),
   toggleLayersPanel: (open) => set((s) => ({ isLayersPanelOpen: open ?? !s.isLayersPanelOpen })),

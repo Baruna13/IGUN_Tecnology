@@ -13,6 +13,13 @@ import { Legend } from "./Legend";
 import { FloatingHint } from "./FloatingHint";
 import type { School } from "../../types/school";
 
+const INDONESIA_BOUNDS: [[number, number], [number, number]] = [
+  [-11.2, 94.7],
+  [6.1, 141.1],
+];
+const MAP_MIN_ZOOM = 3.5;
+const MAP_MAX_ZOOM = 19;
+
 function toLatLng([lng, lat]: [number, number]): [number, number] {
   return [lat, lng];
 }
@@ -30,6 +37,17 @@ function FlyToSelection({ school }: { school: School }) {
     }
     map.flyTo(toLatLng(school.coordinates), 15.5, { duration: 1.1 });
   }, [school.id, map]);
+
+  return null;
+}
+
+function FlyToSearchLocation() {
+  const map = useMap();
+  const coordinates = useSchoolFinderStore((s) => s.mapFocusCoordinates);
+
+  useEffect(() => {
+    if (coordinates) map.flyTo(toLatLng(coordinates), 15.5, { duration: 1 });
+  }, [coordinates, map]);
 
   return null;
 }
@@ -73,6 +91,10 @@ export function MapView() {
     <MapContainer
       center={MAP_CENTER}
       zoom={MAP_DEFAULT_ZOOM}
+      minZoom={MAP_MIN_ZOOM}
+      maxZoom={MAP_MAX_ZOOM}
+      maxBounds={INDONESIA_BOUNDS}
+      maxBoundsViscosity={1}
       zoomControl={false}
       className="w-full h-full"
       id="gis-viewport"
@@ -81,12 +103,13 @@ export function MapView() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         subdomains="abc"
-        maxZoom={19}
+        maxZoom={MAP_MAX_ZOOM}
         className="dark-basemap-tiles"
       />
 
       <ClickToSetHome />
       <FlyToSelection school={selectedSchool} />
+      <FlyToSearchLocation />
 
       {layers.adminBoundary && boundariesQuery.data && (
         <GeoJSON

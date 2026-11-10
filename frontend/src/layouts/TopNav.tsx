@@ -2,24 +2,29 @@ import { useMemo, useState } from "react";
 import { ADDRESS_SUGGESTIONS } from "../data/addresses";
 import { useSchoolFinderStore } from "../hooks/useSchoolFinderStore";
 import { useTutorialStore } from "../features/tutorial/useTutorialStore";
+import type { School } from "../types/school";
 
-// === TIPE DATA — KASIH TAU TYPESCRIPT BENTUK DATANYA ===
-type School = {
-  id: string;
-  name: string;
-  address: string;
-};
-
-type AddressSuggestion = {
+type SearchAddress = {
   label: string;
   coordinates: [number, number];
+  detail?: string;
 };
+
+function matchesQuery(value: string, query: string) {
+  const normalizedValue = value.toLocaleLowerCase();
+  return query
+    .toLocaleLowerCase()
+    .trim()
+    .split(/\s+/)
+    .every((term) => normalizedValue.includes(term));
+}
 
 export function TopNav({ onHome }: { onHome: () => void }) {
   // Kasih tau bentuk datanya ke TypeScript
   const schools = useSchoolFinderStore((s) => s.schools) as School[];
   const selectSchool = useSchoolFinderStore((s) => s.selectSchool);
   const setHome = useSchoolFinderStore((s) => s.setHome);
+  const focusMap = useSchoolFinderStore((s) => s.focusMap);
   const openTutorial = useTutorialStore((s) => s.openTutorial);
 
   const [query, setQuery] = useState("");
@@ -29,26 +34,32 @@ export function TopNav({ onHome }: { onHome: () => void }) {
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (mode === "school") {
-      const list = q
-        ? schools.filter(
-            (s) =>
-              s.name.toLowerCase().includes(q) ||
-              s.address.toLowerCase().includes(q)
-          )
-        : schools;
-      return list.slice(0, 6);
+      return (q
+        ? schools.filter((school) => matchesQuery(`${school.name} ${school.address} ${school.district}`, q))
+        : schools
+      ).slice(0, 6);
     }
-    const list = q
-      ? (ADDRESS_SUGGESTIONS as AddressSuggestion[]).filter((a) =>
-          a.label.toLowerCase().includes(q)
-        )
-      : (ADDRESS_SUGGESTIONS as AddressSuggestion[]);
-    return list.slice(0, 6);
+
+    const addresses: SearchAddress[] = [
+      ...ADDRESS_SUGGESTIONS,
+      ...schools.map((school) => ({
+        label: school.address,
+        coordinates: school.coordinates,
+        detail: school.name,
+      })),
+    ];
+    const uniqueAddresses = addresses.filter(
+      (address, index) => addresses.findIndex((item) => item.label === address.label) === index
+    );
+    return (q
+      ? uniqueAddresses.filter((address) => matchesQuery(`${address.label} ${address.detail ?? ""}`, q))
+      : uniqueAddresses
+    ).slice(0, 6);
   }, [query, mode, schools]);
 
   return (
-    <header className="relative z-50 h-16 shrink-0 bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl border-b border-emerald-100/50 dark:border-emerald-900/30">
-      <div className="h-full px-space-md sm:px-space-lg flex items-center gap-space-md">
+    <header className="relative z-[1100] h-auto min-h-16 sm:h-16 shrink-0 bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl border-b border-emerald-100/50 dark:border-emerald-900/30">
+      <div className="min-h-16 h-auto sm:h-full px-space-md sm:px-space-lg flex flex-wrap items-center gap-x-space-md gap-y-0">
         {/* === LOGO + NAMA APLIKASI === */}
         <div className="flex items-center gap-space-xs shrink-0">
           <button
@@ -76,7 +87,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
         </div>
 
         {/* === PENCARIAN === */}
-        <div className="flex-1 max-w-xl relative">
+        <div className="relative order-last basis-full min-w-0 flex-1 max-w-xl pb-space-xs sm:order-none sm:basis-auto sm:pb-0">
           <div
             id="tutorial-search-bar"
             className="flex items-center bg-gray-50/90 dark:bg-gray-800/80 rounded-full px-4 h-11 gap-space-xs border border-gray-300 dark:border-gray-600 shadow-sm transition-all"
@@ -112,28 +123,39 @@ export function TopNav({ onHome }: { onHome: () => void }) {
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setTimeout(() => setIsOpen(false), 120)}
+              role="combobox"
+              aria-expanded={isOpen}
+              aria-autocomplete="list"
               placeholder={
                 mode === "school"
                   ? "Cari Sekolah Negeri..."
                   : "Cari alamat domisili..."
               }
-              className="bg-transparent w-full text-body-md text-gray-700 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none"
+              className="bg-transparent min-w-0 flex-1 text-body-md text-gray-700 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none"
             />
           </div>
 
           {/* === HASIL PENCARIAN === */}
-          {isOpen && results.length > 0 && (
-            <div className="absolute top-12 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl p-space-2xs overflow-hidden shadow-xl border border-gray-200/80 dark:border-gray-700/40 z-50">
+          {isOpen && query.trim() && (
+            <div role="listbox" className="absolute top-12 left-0 right-0 max-h-[min(60vh,24rem)] overflow-y-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl p-space-2xs shadow-xl border border-gray-200/80 dark:border-gray-700/40 z-50">
+              {results.length === 0 && (
+                <p className="px-space-sm py-3 text-body-sm text-gray-500 dark:text-gray-400" role="status">
+                  Hasil tidak ditemukan, coba kata kunci lain
+                </p>
+              )}
               {mode === "school"
                 ? (results as School[]).map((school) => (
                     <button
+                      type="button"
+                      role="option"
+                      aria-selected="false"
                       key={school.id}
-                      onMouseDown={() => {
+                      onClick={() => {
                         selectSchool(school.id);
                         setQuery("");
                         setIsOpen(false);
                       }}
-                      className="w-full text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex flex-col gap-0.5"
+                      className="w-full min-w-0 text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 focus-visible:bg-emerald-50 dark:hover:bg-emerald-900/20 dark:focus-visible:bg-emerald-900/20 focus-visible:outline-none transition-colors flex flex-col gap-0.5"
                     >
                       <span className="text-body-sm font-medium text-gray-800 dark:text-gray-100">
                         {school.name}
@@ -143,19 +165,24 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                       </span>
                     </button>
                   ))
-                : (results as AddressSuggestion[]).map((addr) => (
+                : (results as SearchAddress[]).map((addr) => (
                     <button
+                      type="button"
+                      role="option"
+                      aria-selected="false"
                       key={addr.label}
-                      onMouseDown={() => {
+                      onClick={() => {
                         setHome(addr.coordinates, addr.label);
+                        focusMap(addr.coordinates);
                         setQuery("");
                         setIsOpen(false);
                       }}
-                      className="w-full text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center gap-space-xs"
+                      className="w-full min-w-0 text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 focus-visible:bg-emerald-50 dark:hover:bg-emerald-900/20 dark:focus-visible:bg-emerald-900/20 focus-visible:outline-none transition-colors flex items-center gap-space-xs"
                     >
                       <span className="material-symbols-outlined text-[16px] text-emerald-500">home_pin</span>
-                      <span className="text-body-sm text-gray-700 dark:text-gray-200">
-                        {addr.label}
+                      <span className="min-w-0 flex flex-col text-left">
+                        <span className="text-body-sm text-gray-700 dark:text-gray-200">{addr.label}</span>
+                        {addr.detail && <span className="text-label-sm text-gray-500 dark:text-gray-400">{addr.detail}</span>}
                       </span>
                     </button>
                   ))}

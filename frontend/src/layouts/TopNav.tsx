@@ -180,7 +180,11 @@ export function TopNav({ onHome }: { onHome: () => void }) {
 
             <input
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setIsOpen(true);          // buka dropdown setiap kali mengetik
+              }}
+              onClick={() => setIsOpen(true)}   // buka lagi saat input diklik
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
               role="combobox"

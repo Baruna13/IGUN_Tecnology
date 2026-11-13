@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ADDRESS_SUGGESTIONS } from "../data/addresses";
 import { useSchoolFinderStore } from "../hooks/useSchoolFinderStore";
 import { useTutorialStore } from "../features/tutorial/useTutorialStore";
@@ -19,6 +19,30 @@ function matchesQuery(value: string, query: string) {
     .every((term) => normalizedValue.includes(term));
 }
 
+
+// Kotak batas Kota Bogor: kiri, atas, kanan, bawah (lon,lat)
+const BOGOR_VIEWBOX = "106.70,-6.50,106.90,-6.68";
+
+async function geocodeBogor(query: string, signal: AbortSignal): Promise<SearchAddress[]> {
+  const params = new URLSearchParams({
+    q: query,
+    format: "jsonv2",
+    limit: "5",
+    countrycodes: "id",
+    viewbox: BOGOR_VIEWBOX,
+    bounded: "1",
+    "accept-language": "id",
+  });
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, { signal });
+  if (!res.ok) throw new Error(`Geocoder error ${res.status}`);
+  const rows = (await res.json()) as Array<{ display_name: string; lat: string; lon: string }>;
+  return rows.map((r) => ({
+    label: r.display_name.split(",").slice(0, 3).join(",").trim(),
+    detail: r.display_name,
+    coordinates: [parseFloat(r.lon), parseFloat(r.lat)] as [number, number],
+  }));
+}
+
 export function TopNav({ onHome }: { onHome: () => void }) {
   // Kasih tau bentuk datanya ke TypeScript
   const schools = useSchoolFinderStore((s) => s.schools) as School[];
@@ -30,17 +54,47 @@ export function TopNav({ onHome }: { onHome: () => void }) {
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"school" | "address">("school");
   const [isOpen, setIsOpen] = useState(false);
+  const [remoteAddresses, setRemoteAddresses] = useState<SearchAddress[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // Cari alamat sungguhan (Nominatim) dengan jeda 600 ms agar tidak membanjiri server
+  useEffect(() => {
+    const q = query.trim();
+    if (mode !== "address" || q.length < 3) {
+      setRemoteAddresses([]);
+      setIsSearching(false);
+      return;
+    }
+    const controller = new AbortController();
+    setIsSearching(true);
+    const timer = setTimeout(() => {
+      geocodeBogor(q, controller.signal)
+        .then((rows) => setRemoteAddresses(rows))
+        .catch((err) => {
+          if (err?.name !== "AbortError") setRemoteAddresses([]);
+        })
+        .finally(() => {
+          if (!controller.signal.aborted) setIsSearching(false);
+        });
+    }, 600);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [query, mode]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (mode === "school") {
+      const negeri = schools.filter((school) => school.status === "Negeri");
       return (q
-        ? schools.filter((school) => matchesQuery(`${school.name} ${school.address} ${school.district}`, q))
-        : schools
+        ? negeri.filter((school) => matchesQuery(`${school.name} ${school.address} ${school.district}`, q))
+        : negeri
       ).slice(0, 6);
     }
 
     const addresses: SearchAddress[] = [
+      ...remoteAddresses,
       ...ADDRESS_SUGGESTIONS,
       ...schools.map((school) => ({
         label: school.address,
@@ -51,11 +105,15 @@ export function TopNav({ onHome }: { onHome: () => void }) {
     const uniqueAddresses = addresses.filter(
       (address, index) => addresses.findIndex((item) => item.label === address.label) === index
     );
-    return (q
-      ? uniqueAddresses.filter((address) => matchesQuery(`${address.label} ${address.detail ?? ""}`, q))
-      : uniqueAddresses
-    ).slice(0, 6);
-  }, [query, mode, schools]);
+    // Hasil geocoder sudah cocok dengan kata kunci di server, jadi tidak difilter ulang
+    const remoteLabels = new Set(remoteAddresses.map((a) => a.label));
+    const matched = q
+      ? uniqueAddresses.filter(
+          (a) => remoteLabels.has(a.label) || matchesQuery(`${a.label} ${a.detail ?? ""}`, q)
+        )
+      : uniqueAddresses;
+    return matched.slice(0, 8);
+  }, [query, mode, schools, remoteAddresses]);
 
   return (
     <header className="relative z-[1100] h-auto min-h-16 sm:h-16 shrink-0 bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl border-b border-emerald-100/50 dark:border-emerald-900/30">
@@ -96,6 +154,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
 
             <div className="flex text-label-sm font-label-sm shrink-0 gap-1 pr-space-xs border-r border-gray-300 dark:border-gray-600 mr-space-xs">
               <button
+                type="button"
                 onClick={() => setMode("school")}
                 className={
                   mode === "school"
@@ -107,6 +166,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
               </button>
               <span className="text-gray-300 dark:text-gray-600">/</span>
               <button
+                type="button"
                 onClick={() => setMode("address")}
                 className={
                   mode === "address"
@@ -122,7 +182,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsOpen(true)}
-              onBlur={() => setTimeout(() => setIsOpen(false), 120)}
+              onBlur={() => setIsOpen(false)}
               role="combobox"
               aria-expanded={isOpen}
               aria-autocomplete="list"
@@ -137,8 +197,13 @@ export function TopNav({ onHome }: { onHome: () => void }) {
 
           {/* === HASIL PENCARIAN === */}
           {isOpen && query.trim() && (
-            <div role="listbox" className="absolute top-12 left-0 right-0 max-h-[min(60vh,24rem)] overflow-y-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl p-space-2xs shadow-xl border border-gray-200/80 dark:border-gray-700/40 z-50">
-              {results.length === 0 && (
+            <div role="listbox" onMouseDown={(e) => e.preventDefault()} className="absolute top-12 left-0 right-0 max-h-[min(60vh,24rem)] overflow-y-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl p-space-2xs shadow-xl border border-gray-200/80 dark:border-gray-700/40 z-50">
+              {isSearching && mode === "address" && (
+                <p className="px-space-sm py-2 text-label-sm text-gray-500 dark:text-gray-400" role="status">
+                  Mencari alamat...
+                </p>
+              )}
+              {results.length === 0 && !isSearching && (
                 <p className="px-space-sm py-3 text-body-sm text-gray-500 dark:text-gray-400" role="status">
                   Hasil tidak ditemukan, coba kata kunci lain
                 </p>
@@ -152,6 +217,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                       key={school.id}
                       onClick={() => {
                         selectSchool(school.id);
+                        focusMap([...school.coordinates]);
                         setQuery("");
                         setIsOpen(false);
                       }}
@@ -165,15 +231,15 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                       </span>
                     </button>
                   ))
-                : (results as SearchAddress[]).map((addr) => (
+                : (results as SearchAddress[]).map((addr, i) => (
                     <button
                       type="button"
                       role="option"
                       aria-selected="false"
-                      key={addr.label}
+                      key={`${addr.label}-${i}`}
                       onClick={() => {
                         setHome(addr.coordinates, addr.label);
-                        focusMap(addr.coordinates);
+                        focusMap([...addr.coordinates]);
                         setQuery("");
                         setIsOpen(false);
                       }}

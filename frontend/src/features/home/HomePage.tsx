@@ -581,7 +581,7 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
               Ketentuan resmi pendaftaran mengikuti SPMB dari Dinas Pendidikan setempat.
             </p>
             <p className="text-gray-400 text-[13px] shrink-0">
-              &copy; {new Date().getFullYear()} EduZONE, Tim IGUN
+              &copy; {new Date().getFullYear()} EduZONE, IGUN Technology
             </p>
           </div>
         </div>

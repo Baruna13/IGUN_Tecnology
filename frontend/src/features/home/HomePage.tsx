@@ -453,35 +453,137 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
       </main>
 
       {/* ── FOOTER GELAP ── */}
-      <footer className="bg-[#484848] text-white pt-12 pb-16 w-full border-t border-gray-600">
-        <div className="w-[94%] max-w-[1680px] mx-auto flex flex-col items-start gap-5">
-          {/* Kota Bogor */}
-          <div className="flex items-center gap-3.5">
-            <CityBuildingIcon size={36} className="text-gray-300" />
-            <div>
-              <strong className="text-white font-bold text-[17px] leading-none block">
-                Kota Bogor
-              </strong>
-              <small className="text-gray-400 text-[13px] block mt-1">
-                Jawa Barat
-              </small>
+      <footer className="bg-[#484848] text-white pt-14 pb-8 w-full border-t border-gray-600">
+        <div className="w-[94%] max-w-[1680px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 lg:gap-14">
+            {/* Kolom 1: Brand & deskripsi */}
+            <div className="md:col-span-5 flex flex-col items-start gap-5">
+              <div className="flex items-center gap-3 select-none">
+                <svg className="w-7 h-7 text-white" viewBox="0 0 100 80" fill="none">
+                  <polygon points="50,12 92,32 50,48 8,32" fill="#FFFFFF" />
+                  <path d="M26 36V50C26 56 37 61 50 61C63 61 74 56 74 50V36L50 48L26 36Z" fill="#FFFFFF" />
+                </svg>
+                <div className="flex items-center font-bold text-[20px] md:text-[24px] text-white">
+                  Education&nbsp;
+                  <ZoneText className="text-[20px] md:text-[24px]" />
+                </div>
+              </div>
+
+              <p className="text-gray-300 text-[14px] md:text-[15px] leading-relaxed max-w-[460px]">
+                Simulasi zonasi sekolah negeri di Kota Bogor berbasis koordinat peta. Cek jarak rumah ke sekolah,
+                lihat batas zonasi, dan bandingkan sekolah di sekitar sebelum mendaftar.
+              </p>
+
+              <div className="flex items-center gap-3.5">
+                <CityBuildingIcon size={36} className="text-gray-300" />
+                <div>
+                  <strong className="text-white font-bold text-[17px] leading-none block">Kota Bogor</strong>
+                  <small className="text-gray-400 text-[13px] block mt-1">Jawa Barat</small>
+                </div>
+              </div>
+            </div>
+
+            {/* Kolom 2: Navigasi */}
+            <nav className="md:col-span-3" aria-label="Navigasi footer">
+              <h3 className="text-white font-bold text-[16px] mb-4">Jelajahi</h3>
+              <ul className="flex flex-col gap-3 text-[14px] md:text-[15px]">
+                <li>
+                  <a
+                    href="#beranda"
+                    onClick={() => setActiveNav("beranda")}
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors"
+                  >
+                    Beranda
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#kenapa"
+                    onClick={() => setActiveNav("kenapa")}
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors"
+                  >
+                    Mengapa EduZone
+                  </a>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onOpenMap()}
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors bg-transparent border-0 p-0 cursor-pointer text-left"
+                  >
+                    Sekolah Terdekat
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onOpenMap()}
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors bg-transparent border-0 p-0 cursor-pointer text-left"
+                  >
+                    Buka GIS Map Explorer
+                  </button>
+                </li>
+              </ul>
+            </nav>
+
+            {/* Kolom 3: Sumber data & teknologi */}
+            <div className="md:col-span-4">
+              <h3 className="text-white font-bold text-[16px] mb-4">Sumber data dan teknologi</h3>
+              <ul className="flex flex-col gap-3 text-[14px] md:text-[15px]">
+                <li>
+                  <a
+                    href="https://www.openstreetmap.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors"
+                  >
+                    OpenStreetMap, lokasi sekolah dan peta dasar
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://tanahair.indonesia.go.id/portal-web"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors"
+                  >
+                    Ina-Geoportal, referensi data geospasial
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://leafletjs.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors"
+                  >
+                    Leaflet, peta interaktif
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://turfjs.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-[#00B38C] transition-colors"
+                  >
+                    Turf.js, hitung jarak dan zona
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* Logo EduZONE di Footer */}
-          <div className="flex items-center gap-3 mt-1 select-none">
-            <svg className="w-7 h-7 text-white" viewBox="0 0 100 80" fill="none">
-              <polygon points="50,12 92,32 50,48 8,32" fill="#FFFFFF" />
-              <path d="M26 36V50C26 56 37 61 50 61C63 61 74 56 74 50V36L50 48L26 36Z" fill="#FFFFFF" />
-            </svg>
-            <div className="flex items-center font-bold text-[20px] md:text-[24px] text-white">
-              Education&nbsp;
-              <ZoneText className="text-[20px] md:text-[24px]" />
-            </div>
+          {/* Garis pembatas + catatan bawah */}
+          <div className="w-full border-t border-white/20 mt-10 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <p className="text-gray-400 text-[13px] leading-relaxed max-w-[820px]">
+              Hasil simulasi bersifat perkiraan. Akreditasi, kuota, dan radius zonasi masih berupa data estimasi.
+              Ketentuan resmi pendaftaran mengikuti SPMB dari Dinas Pendidikan setempat.
+            </p>
+            <p className="text-gray-400 text-[13px] shrink-0">
+              &copy; {new Date().getFullYear()} EduZONE, Tim IGUN
+            </p>
           </div>
-
-          {/* Garis Horizontal Pembatas */}
-          <div className="w-full border-t border-white/20 mt-4" />
         </div>
       </footer>
     </div>

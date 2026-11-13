@@ -4,20 +4,25 @@ import type { School } from "../../types/school";
 
 type HomePageProps = {
   schools: School[];
+  /** true setelah layar transisi selesai; animasi masuk baru dimulai saat ini. */
+  ready?: boolean;
   onOpenMap: (schoolId?: string) => void;
 };
 
-// Hook: fade-in saat elemen masuk viewport
-function useFadeIn() {
-  const ref = useRef<HTMLDivElement>(null);
+// Hook: elemen meluncur masuk (dari kiri/kanan) saat terlihat di viewport.
+// Animasi baru jalan setelah transisi halaman (intro / kembali dari peta) selesai,
+// jadi tidak terpotong oleh layar transisi.
+function useSlideIn<T extends HTMLElement = HTMLDivElement>(ready: boolean, delay = 0, from: "left" | "right" = "left") {
+  const ref = useRef<T>(null);
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !ready) return;
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.classList.add("opacity-100", "translate-y-0");
-          el.classList.remove("opacity-0", "translate-y-4");
+          el.style.transitionDelay = `${delay}ms`;
+          el.classList.add("opacity-100", "translate-x-0");
+          el.classList.remove("opacity-0", "-translate-x-[35vw]", "translate-x-[35vw]", "-translate-x-24");
           obs.unobserve(el);
         }
       },
@@ -25,34 +30,42 @@ function useFadeIn() {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [ready, delay, from]);
   return ref;
 }
 
 // Counter animasi angka
-function AnimatedCounter({ target }: { target: number }) {
+function AnimatedCounter({ target, ready = true, delay = 0 }: { target: number; ready?: boolean; delay?: number }) {
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !ready) return;
+    let timer: number | undefined;
+    let wait: number | undefined;
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
         obs.unobserve(el);
-        let start = 0;
-        const step = Math.max(1, Math.ceil(target / 30));
-        const timer = setInterval(() => {
-          start = Math.min(start + step, target);
-          setVal(start);
-          if (start >= target) clearInterval(timer);
-        }, 35);
+        wait = window.setTimeout(() => {
+          let start = 0;
+          const step = Math.max(1, Math.ceil(target / 30));
+          timer = window.setInterval(() => {
+            start = Math.min(start + step, target);
+            setVal(start);
+            if (start >= target) window.clearInterval(timer);
+          }, 35);
+        }, delay);
       },
       { threshold: 0.3 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
-  }, [target]);
+    return () => {
+      obs.disconnect();
+      window.clearTimeout(wait);
+      window.clearInterval(timer);
+    };
+  }, [target, ready, delay]);
   return <span ref={ref}>{val || target}</span>;
 }
 
@@ -149,7 +162,7 @@ function HeroMortarboardIcon({ className = "w-16 h-16 md:w-22 md:h-22 lg:w-26 lg
   );
 }
 
-export function HomePage({ schools, onOpenMap }: HomePageProps) {
+export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
   const setHome = useSchoolFinderStore((s) => s.setHome);
   const [activeNav, setActiveNav] = useState("beranda");
 
@@ -172,9 +185,18 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
     return Math.round(accreditedSchools.reduce((s, x) => s + (x.accreditationScore || 85), 0) / accreditedSchools.length);
   }, [accreditedSchools]);
 
-  const heroRef = useFadeIn();
-  const gisRef = useFadeIn();
-  const whyRef = useFadeIn();
+  const heroRef = useSlideIn(ready, 0);
+  const gisRef = useSlideIn(ready, 150);
+  // Section "Kenapa EduZone": berurutan, kolom kiri dari kiri lalu kartu kanan dari kanan
+  const whyLabelRef = useSlideIn<HTMLSpanElement>(ready, 0);
+  const whyTitleRef = useSlideIn<HTMLHeadingElement>(ready, 180);
+  const whyDescRef = useSlideIn<HTMLParagraphElement>(ready, 360);
+  const whyStatsRef = useSlideIn(ready, 540);
+  const whyCityRef = useSlideIn(ready, 720);
+  const whyCard1Ref = useSlideIn<HTMLElement>(ready, 900, "right");
+  const whyCard2Ref = useSlideIn<HTMLElement>(ready, 1080, "right");
+  const whyCard3Ref = useSlideIn<HTMLElement>(ready, 1260, "right");
+  const whyCardRefs = [whyCard1Ref, whyCard2Ref, whyCard3Ref];
 
   const features = [
     {
@@ -214,7 +236,7 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans antialiased selection:bg-[#00B38C] selection:text-white">
+    <div className="min-h-screen overflow-x-clip bg-white text-gray-900 font-sans antialiased selection:bg-[#00B38C] selection:text-white">
       {/* ── TOP NAVBAR ── */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm transition-all">
         <div className="w-[94%] max-w-[1680px] mx-auto h-[76px] md:h-[84px] flex items-center justify-between">
@@ -268,10 +290,10 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
       {/* ── MAIN CONTENT ── */}
       <main className="w-full">
         {/* ── 1. HERO SECTION ── */}
-        <section id="beranda" className="w-[94%] max-w-[1680px] mx-auto pt-4 md:pt-6 pb-8 md:pb-12">
+        <section id="beranda" className="w-[94%] max-w-[1680px] mx-auto pt-4 md:pt-14 pb-8 md:pb-14">
           <div
             ref={heroRef}
-            className="relative h-[480px] md:h-[540px] lg:h-[580px] rounded-[28px] overflow-hidden flex flex-col items-center justify-center text-center p-6 md:p-14 lg:p-16 shadow-2xl opacity-0 translate-y-4 transition-all duration-700 ease-out"
+            className="relative h-[480px] md:h-[540px] lg:h-[580px] rounded-[28px] overflow-hidden flex flex-col items-center justify-center text-center p-6 md:p-14 lg:p-16 shadow-2xl opacity-0 -translate-x-[35vw] transition-all duration-1000 ease-out"
           >
             {/* Foto Globe Latar Belakang */}
             <div
@@ -301,10 +323,10 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
         </section>
 
         {/* ── 2. GIS SIMULATION CARD ── */}
-        <section className="w-[94%] max-w-[1680px] mx-auto pb-14 md:pb-18">
+        <section className="w-[94%] max-w-[1680px] mx-auto pb-8 md:pb-10">
           <div
             ref={gisRef}
-            className="bg-[#404040] rounded-[26px] p-8 md:p-12 lg:p-14 shadow-xl opacity-0 translate-y-4 transition-all duration-700 ease-out grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            className="bg-[#404040] rounded-[26px] p-8 md:p-12 lg:p-14 shadow-xl opacity-0 -translate-x-[35vw] transition-all duration-1000 ease-out grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
           >
             {/* Kolom Kiri: Teks & Tombol */}
             <div className="lg:col-span-7 flex flex-col justify-center">
@@ -355,26 +377,24 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
         </section>
 
         {/* ── 3. KENAPA EDUZONE SECTION ── */}
-        <section id="kenapa" className="w-[94%] max-w-[1680px] mx-auto pb-18 md:pb-24">
-          <div
-            ref={whyRef}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start opacity-0 translate-y-4 transition-all duration-700 ease-out"
-          >
+        <section id="kenapa" className="w-[94%] max-w-[1680px] mx-auto pb-6 md:pb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
             {/* Kolom Kiri: Penjelasan, Statistik & Kota Bogor */}
             <div className="lg:col-span-7 flex flex-col">
-              <span className="text-[#00B38C] font-bold text-[15px] md:text-[16px] tracking-wide mb-2.5 block">
+              <span ref={whyLabelRef} className="text-[#00B38C] font-bold text-[15px] md:text-[16px] tracking-wide mb-2.5 block opacity-0 -translate-x-24 transition-all duration-700 ease-out">
                 Kenapa EduZone?
               </span>
-              <h2 className="text-gray-900 font-extrabold text-[36px] md:text-[46px] lg:text-[54px] leading-[1.14] tracking-tight mb-5">
+              <h2 ref={whyTitleRef} className="text-gray-900 font-extrabold text-[36px] md:text-[46px] lg:text-[54px] leading-[1.14] tracking-tight mb-5 opacity-0 -translate-x-24 transition-all duration-700 ease-out">
                 Data yang rumit, jadi<br />keputusan yang tenang.
               </h2>
-              <p className="text-gray-600 text-[15px] md:text-[16.5px] lg:text-[17.5px] leading-relaxed mb-8 max-w-[720px]">
+              <p ref={whyDescRef} className="text-gray-600 text-[15px] md:text-[16.5px] lg:text-[17.5px] leading-relaxed mb-8 max-w-[720px] opacity-0 -translate-x-24 transition-all duration-700 ease-out">
                 Menentukan sekolah berdasar sistem zonasi kini lebih tenang tanpa rasa cemas. Kami mengolah titik koordinat
                 presisi untuk menyajikan data jarak real-time, visualisasi batas zonasi yang jelas, serta analisis
                 komparasi sekolah sekitar membantu Anda mengambil keputusan terbaik bagi pendidikan buah hati dengan
                 cepat dan tepat.
               </p>
 
+              <div ref={whyStatsRef} className="opacity-0 -translate-x-24 transition-all duration-700 ease-out">
               {/* Garis Pembatas Atas Statistik */}
               <div className="border-t border-gray-300 w-full mb-8" />
 
@@ -382,7 +402,7 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
               <div className="flex items-start justify-between gap-6 max-w-[560px]">
                 <div>
                   <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
-                    <AnimatedCounter target={publicSchools.length || 27} />
+                    <AnimatedCounter target={publicSchools.length || 27} ready={ready} delay={650} />
                   </strong>
                   <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
                     Sekolah Negeri<br />Terdaftar
@@ -390,7 +410,7 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
                 </div>
                 <div>
                   <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
-                    <AnimatedCounter target={accreditedSchools.length || 7} />
+                    <AnimatedCounter target={accreditedSchools.length || 7} ready={ready} delay={650} />
                   </strong>
                   <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
                     Akreditasi A<br />& Lebih
@@ -398,7 +418,7 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
                 </div>
                 <div>
                   <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
-                    <AnimatedCounter target={averageScore} />
+                    <AnimatedCounter target={averageScore} ready={ready} delay={650} />
                   </strong>
                   <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
                     Rata-rata<br />Skor Akreditasi
@@ -408,6 +428,8 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
 
               {/* Garis Pembatas Bawah Statistik */}
               <div className="border-t border-gray-300 w-full mt-8 mb-8" />
+
+              </div>
 
               {/* Badge Kota Bogor */}
               <div className="flex items-center gap-4">
@@ -428,12 +450,13 @@ export function HomePage({ schools, onOpenMap }: HomePageProps) {
 
             {/* Kolom Kanan: 3 Kartu Gelap (01, 02, 03) */}
             <div className="lg:col-span-5 flex flex-col gap-5">
-              {features.map((f) => (
+              {features.map((f, idx) => (
                 <article
                   key={f.num}
-                  className="bg-[#404040] rounded-[20px] p-7 md:p-8 lg:p-9 shadow-lg transition-all hover:bg-[#464646]"
+                  ref={whyCardRefs[idx]}
+                  className="bg-[#404040] rounded-[20px] p-7 md:p-8 lg:p-9 shadow-lg hover:bg-[#464646] opacity-0 translate-x-[35vw] transition-all duration-1000 ease-out"
                 >
-                  <div className="text-[#00B38C] font-extrabold text-[22px] md:text-[26px] leading-none mb-3.5">
+                  <div className="text-[#00B38C] font-extrabold text-[22px] md:text-[26px] leading-none mb-">
                     {f.num}
                   </div>
                   <div className="mb-3.5 text-white">

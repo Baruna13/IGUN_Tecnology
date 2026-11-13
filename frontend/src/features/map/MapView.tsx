@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef } from "react";
 import { GeoJSON, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import { MAP_CENTER, MAP_DEFAULT_ZOOM } from "../../data/mapDefaults";
+import { ADMIN_BOUNDARIES } from "../../data/adminBoundary";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
 import { useEligibility, useRecommendations } from "../../hooks/useAnalysis";
-import { useBoundariesQuery } from "../../hooks/useApiQueries";
 import { buildZoneBuffer, formatDistance } from "../../services/spatialAnalysis";
 import { homeIcon, passiveSchoolIcon, recommendedSchoolIcon, selectedSchoolIcon } from "./markerIcons";
 import { MapControlsDock } from "./MapControlsDock";
@@ -70,7 +70,6 @@ export function MapView() {
   const home = useSchoolFinderStore((s) => s.home);
   const setHome = useSchoolFinderStore((s) => s.setHome);
   const layers = useSchoolFinderStore((s) => s.layers);
-  const boundariesQuery = useBoundariesQuery();
   const radiusOverrideMeters = useSchoolFinderStore((s) => s.radiusOverrideMeters);
   const eligibility = useEligibility();
   const recommendations = useRecommendations();
@@ -111,10 +110,14 @@ export function MapView() {
       <FlyToSelection school={selectedSchool} />
       <FlyToSearchLocation />
 
-      {layers.adminBoundary && boundariesQuery.data && (
+      {layers.adminBoundary && (
         <GeoJSON
-          data={boundariesQuery.data}
-          style={{ color: "transparent", weight: 0, fillColor: "transparent", fillOpacity: 0 }}
+          data={ADMIN_BOUNDARIES}
+          style={{ color: "#fb923c", weight: 3, opacity: 0.95, fillColor: "#fb923c", fillOpacity: 0.06 }}
+          onEachFeature={(feature, layer) => {
+            const name = feature.properties?.name;
+            if (typeof name === "string") layer.bindTooltip(name, { sticky: true });
+          }}
         />
       )}
 

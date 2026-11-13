@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchBoundaries, fetchSchools } from "../api/schoolsApi";
+import { fetchSchools } from "../api/schoolsApi";
 
 export function useSchoolsQuery() {
   return useQuery({
@@ -9,10 +9,3 @@ export function useSchoolsQuery() {
   });
 }
 
-export function useBoundariesQuery() {
-  return useQuery({
-    queryKey: ["boundaries"],
-    queryFn: fetchBoundaries,
-    staleTime: 5 * 60 * 1000,
-  });
-}

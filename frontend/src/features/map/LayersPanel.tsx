@@ -5,7 +5,6 @@ import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
 const LAYER_LABELS: Record<string, string> = {
   buffer: "Zona Radius Domisili",
   adminBoundary: "Batas Kecamatan",
-  roads: "Jaringan Jalan (basemap)",
 };
 
 export function LayersPanel() {

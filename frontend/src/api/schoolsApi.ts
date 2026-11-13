@@ -1,8 +1,6 @@
-import type { FeatureCollection, Polygon } from "geojson";
 import { apiClient } from "./client";
 import type { School, SchoolLevel, SchoolStatus } from "../types/school";
 import { SCHOOLS } from "../data/schools";
-import { ADMIN_BOUNDARIES } from "../data/adminBoundary";
 
 interface SchoolApiDTO {
   id: string;
@@ -50,10 +48,3 @@ export async function fetchSchools(): Promise<School[]> {
   }
 }
 
-export async function fetchBoundaries(): Promise<FeatureCollection<Polygon, { name: string }>> {
-  try {
-    return await apiClient.get<FeatureCollection<Polygon, { name: string }>>("/boundaries");
-  } catch {
-    return ADMIN_BOUNDARIES;
-  }
-}

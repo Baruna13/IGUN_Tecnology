@@ -5,7 +5,6 @@ import type { HomeLocation, School } from "../types/school";
 export interface LayerVisibility {
   buffer: boolean;
   adminBoundary: boolean;
-  roads: boolean;
 }
 
 interface SchoolFinderState {
@@ -47,7 +46,7 @@ export const useSchoolFinderStore = create<SchoolFinderState>((set, get) => ({
   home: { coordinates: DEFAULT_HOME_COORDINATES, label: DEFAULT_HOME_LABEL },
   mapFocusCoordinates: null,
   radiusOverrideMeters: null,
-  layers: { buffer: true, adminBoundary: true, roads: true },
+  layers: { buffer: true, adminBoundary: true },
   isLayersPanelOpen: false,
   isPickingHome: false,
 

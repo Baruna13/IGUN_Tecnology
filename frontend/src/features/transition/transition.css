@@ -1,0 +1,314 @@
+/* ═════════ Transisi halaman EduZONE ═════════
+   Urutan: layar menutup dari tengah seperti zona yang melebar, logo tersusun,
+   ikon latar berkumpul ke titik pusat, lalu layar menyusut ke pin dan halaman baru terbuka. */
+
+.ez-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  color: #fff;
+  background: radial-gradient(ellipse 80% 70% at 50% 46%, #6b6b6b 0%, #595959 48%, #484848 100%);
+  clip-path: circle(0% at 50% 50%);
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  user-select: none;
+  will-change: clip-path;
+}
+.ez-overlay.ez-intro {
+  clip-path: circle(150% at 50% 50%); /* sudah menutup sejak frame pertama */
+}
+
+.ez-go.ez-toMap,
+.ez-go.ez-toHome {
+  animation:
+    ez-cover 650ms cubic-bezier(0.65, 0, 0.2, 1) both,
+    ez-reveal 600ms cubic-bezier(0.7, 0, 0.3, 1) calc(var(--dur) - 600ms) forwards;
+}
+.ez-go.ez-intro {
+  animation: ez-reveal 600ms cubic-bezier(0.7, 0, 0.3, 1) calc(var(--dur) - 600ms) forwards;
+}
+@keyframes ez-cover {
+  from { clip-path: circle(0% at 50% 50%); }
+  to { clip-path: circle(150% at 50% 50%); }
+}
+@keyframes ez-reveal {
+  from { clip-path: circle(150% at 50% 50%); }
+  to { clip-path: circle(0% at 50% 50%); }
+}
+
+/* ───── latar: grid titik seperti peta ───── */
+.ez-grid {
+  position: absolute;
+  inset: -28px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.3px, transparent 1.7px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 25%, transparent 85%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 25%, transparent 85%);
+  animation: ez-grid-drift 3s linear infinite;
+}
+.ez-toHome .ez-grid { animation-direction: reverse; }
+@keyframes ez-grid-drift {
+  to { transform: translate(28px, 28px); }
+}
+
+/* ───── cincin zona yang melebar dari pusat ───── */
+.ez-ring {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 44vmin;
+  height: 44vmin;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  translate: -50% -50%;
+  animation: ez-ring 1500ms cubic-bezier(0.2, 0.6, 0.3, 1) both;
+  animation-delay: calc(var(--t0) + var(--k) * 330ms);
+}
+.ez-ring.is-accent { border-color: rgba(0, 179, 140, 0.55); }
+@keyframes ez-ring {
+  from { transform: scale(0.15); opacity: 0; }
+  20% { opacity: 1; }
+  to { transform: scale(3.4); opacity: 0; }
+}
+
+/* ───── rute dari pin asal ke pin tujuan ───── */
+.ez-route { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ez-flip { transform: scaleX(-1); }
+.ez-route-base {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 3;
+  stroke-dasharray: 4 14;
+  stroke-linecap: round;
+  animation: ez-fade-in 600ms ease both;
+  animation-delay: calc(var(--t0) + 100ms);
+}
+.ez-route-draw {
+  fill: none;
+  stroke: #00b38c;
+  stroke-opacity: 0.8;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: ez-draw 1300ms cubic-bezier(0.6, 0, 0.3, 1) calc(var(--t0) + 200ms) both;
+}
+@keyframes ez-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes ez-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.ez-marker { transform-box: fill-box; transform-origin: 50% 100%; }
+.ez-marker-start { animation: ez-marker-pop 650ms cubic-bezier(0.2, 0.9, 0.3, 1.3) var(--t0) both; }
+.ez-marker-end { animation: ez-marker-pop 650ms cubic-bezier(0.2, 0.9, 0.3, 1.3) calc(var(--t0) + 1300ms) both; }
+@keyframes ez-marker-pop {
+  from { transform: translateY(-40px) scale(0.2); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* ───── ikon latar: terbang masuk, melayang, lalu tersedot ke pusat ───── */
+.ez-icon {
+  position: absolute;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  animation:
+    ez-icon-in 750ms cubic-bezier(0.2, 0.8, 0.2, 1) var(--d) both,
+    ez-icon-out 750ms cubic-bezier(0.6, 0, 0.9, 0.4) calc(var(--dur) - 850ms + var(--o)) forwards;
+}
+.ez-icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: ez-float 3.2s ease-in-out var(--fd) infinite alternate;
+}
+@keyframes ez-icon-in {
+  from { transform: translate(var(--fx), var(--fy)) scale(0.3) rotate(var(--r)); opacity: 0; }
+  to { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes ez-icon-out {
+  from { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  to { transform: translate(var(--cx), var(--cy)) scale(0.15) rotate(var(--r2)); opacity: 0; }
+}
+@keyframes ez-float {
+  from { transform: translateY(-7px) rotate(3deg); }
+  to { transform: translateY(7px) rotate(-3deg); }
+}
+
+/* ───── konten tengah ───── */
+.ez-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5vw;
+  animation: ez-out 520ms cubic-bezier(0.6, 0, 0.9, 0.5) calc(var(--dur) - 720ms) forwards;
+}
+@keyframes ez-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.6); }
+}
+
+.ez-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22em;
+  font-size: clamp(28px, 7.4vw, 100px);
+  line-height: 1;
+  filter: drop-shadow(0 0.05em 0.04em rgba(0, 0, 0, 0.4));
+}
+
+.ez-cap {
+  width: 0.98em;
+  height: auto;
+  transform-origin: 50% 60%;
+  animation: ez-cap-drop 900ms cubic-bezier(0.25, 0.9, 0.3, 1) var(--t0) both;
+}
+@keyframes ez-cap-drop {
+  from { opacity: 0; transform: translateY(-1.6em) rotate(-28deg) scale(0.7); }
+  55% { opacity: 1; transform: translateY(0.12em) rotate(5deg) scale(1.04); }
+  75% { transform: translateY(-0.05em) rotate(-2deg) scale(1); }
+  to { opacity: 1; transform: none; }
+}
+.ez-tassel {
+  transform-origin: 50px 30px;
+  animation: ez-swing 1.5s ease-in-out calc(var(--t0) + 900ms) infinite alternate both;
+}
+@keyframes ez-swing {
+  from { transform: rotate(-9deg); }
+  to { transform: rotate(9deg); }
+}
+
+.ez-edu,
+.ez-zone {
+  display: inline-flex;
+  align-items: center;
+}
+.ez-edu {
+  font-family: "Allerta Stencil", "Belanosima", system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.ez-zone {
+  font-family: "Belanosima", "Plus Jakarta Sans", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #f4fafa;
+  margin-left: 0.08em;
+}
+.ez-el {
+  display: inline-block;
+  animation: ez-rise 700ms cubic-bezier(0.2, 0.9, 0.25, 1.25) calc(var(--t0) + 250ms + var(--i) * 45ms) both;
+}
+@keyframes ez-rise {
+  from { opacity: 0; transform: translateY(0.45em) rotate(4deg) scale(0.9); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+.ez-zl {
+  display: inline-block;
+  animation: ez-pop 650ms cubic-bezier(0.2, 0.9, 0.3, 1) calc(var(--t0) + 700ms + var(--i) * 90ms) both;
+}
+@keyframes ez-pop {
+  from { opacity: 0; transform: scale(0.2) rotate(-18deg); }
+  60% { opacity: 1; transform: scale(1.12) rotate(3deg); }
+  to { opacity: 1; transform: none; }
+}
+
+/* huruf O = lingkaran berisi pin yang jatuh, lalu memancarkan riak zona */
+.ez-o {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.82em;
+  height: 0.82em;
+  margin: 0 0.03em;
+  border-radius: 50%;
+  background: #f4fafa;
+}
+.ez-o svg {
+  width: 66%;
+  height: 66%;
+  animation: ez-pin-drop 800ms cubic-bezier(0.3, 0.7, 0.4, 1) calc(var(--t0) + 1150ms) both;
+}
+.ez-o::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #00b38c;
+  animation: ez-ping 900ms ease-out calc(var(--t0) + 1700ms) both;
+}
+@keyframes ez-pin-drop {
+  from { opacity: 0; transform: translateY(-220%); }
+  45% { opacity: 1; transform: translateY(0); }
+  62% { transform: translateY(-28%); }
+  78% { transform: translateY(0); }
+  88% { transform: translateY(-8%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ez-ping {
+  from { transform: scale(1); opacity: 0.85; }
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+/* label dan progress */
+.ez-tag {
+  margin: 1.6rem 0 0;
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.74);
+  animation: ez-fade-in 500ms ease calc(var(--t0) + 800ms) both;
+}
+.ez-dots { display: inline-flex; gap: 3px; margin-left: 4px; }
+.ez-dots i {
+  width: 4px;
+  height: 4px;
+  margin-top: 0.7em;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ez-blink 1s ease-in-out infinite;
+}
+.ez-dots i:nth-child(2) { animation-delay: 0.15s; }
+.ez-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes ez-blink {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+.ez-bar {
+  width: min(260px, 56vw);
+  height: 3px;
+  margin-top: 0.9rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+.ez-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #00b38c;
+  transform-origin: left center;
+  animation: ez-bar calc(var(--dur) - 1100ms) cubic-bezier(0.45, 0, 0.3, 1) var(--t0) both;
+}
+@keyframes ez-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ───── gerakan dikurangi: cukup memudar ───── */
+.ez-reduced.ez-go {
+  clip-path: none;
+  opacity: 0;
+  animation: ez-soft var(--dur) linear both;
+}
+.ez-reduced *,
+.ez-reduced *::after {
+  animation: none !important;
+}
+@keyframes ez-soft {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}

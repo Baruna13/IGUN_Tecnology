@@ -1,0 +1,29 @@
+/* Animasi masuk kotak hero dan kartu GIS dari kiri.
+   Hanya dijalankan saat beranda selesai ditampilkan (buka pertama & kembali dari peta),
+   yaitu ketika kelas `is-on` ditambahkan setelah layar transisi selesai. */
+
+.ez-enter-left {
+  opacity: 0;
+}
+
+.ez-enter-left.is-on {
+  animation: ez-home-slide-left 1s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) both;
+}
+
+@keyframes ez-home-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-35vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ez-enter-left.is-on {
+    animation: none;
+    opacity: 1;
+  }
+}

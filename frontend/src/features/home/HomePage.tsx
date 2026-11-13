@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
 import type { School } from "../../types/school";
+import "./home.css";
 
 type HomePageProps = {
   schools: School[];
@@ -185,8 +186,9 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
     return Math.round(accreditedSchools.reduce((s, x) => s + (x.accreditationScore || 85), 0) / accreditedSchools.length);
   }, [accreditedSchools]);
 
-  const heroRef = useSlideIn(ready, 0);
-  const gisRef = useSlideIn(ready, 150);
+  // Kotak hero & kartu GIS: meluncur dari kiri setiap beranda selesai ditampilkan
+  // (buka pertama & kembali dari Sekolah Terdekat). Dipicu oleh `ready`, bukan scroll.
+  const enterLeft = (on: boolean) => `ez-enter-left${on ? " is-on" : ""}`;
   // Section "Kenapa EduZone": berurutan, kolom kiri dari kiri lalu kartu kanan dari kanan
   const whyLabelRef = useSlideIn<HTMLSpanElement>(ready, 0);
   const whyTitleRef = useSlideIn<HTMLHeadingElement>(ready, 180);
@@ -292,8 +294,7 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
         {/* ── 1. HERO SECTION ── */}
         <section id="beranda" className="w-[94%] max-w-[1680px] mx-auto pt-4 md:pt-14 pb-8 md:pb-14">
           <div
-            ref={heroRef}
-            className="relative h-[480px] md:h-[540px] lg:h-[580px] rounded-[28px] overflow-hidden flex flex-col items-center justify-center text-center p-6 md:p-14 lg:p-16 shadow-2xl opacity-0 -translate-x-[35vw] transition-all duration-1000 ease-out"
+            className={`relative h-[480px] md:h-[540px] lg:h-[580px] rounded-[28px] overflow-hidden flex flex-col items-center justify-center text-center p-6 md:p-14 lg:p-16 shadow-2xl ${enterLeft(ready)}`}
           >
             {/* Foto Globe Latar Belakang */}
             <div
@@ -325,8 +326,8 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
         {/* ── 2. GIS SIMULATION CARD ── */}
         <section className="w-[94%] max-w-[1680px] mx-auto pb-8 md:pb-10">
           <div
-            ref={gisRef}
-            className="bg-[#404040] rounded-[26px] p-8 md:p-12 lg:p-14 shadow-xl opacity-0 -translate-x-[35vw] transition-all duration-1000 ease-out grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            className={`bg-[#404040] rounded-[26px] p-8 md:p-12 lg:p-14 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${enterLeft(ready)}`}
+            style={{ "--d": "150ms" } as CSSProperties}
           >
             {/* Kolom Kiri: Teks & Tombol */}
             <div className="lg:col-span-7 flex flex-col justify-center">
@@ -432,7 +433,7 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
               </div>
 
               {/* Badge Kota Bogor */}
-              <div className="flex items-center gap-4">
+              <div ref={whyCityRef} className="flex items-center gap-4 opacity-0 -translate-x-24 transition-all duration-700 ease-out">
                 <CityBuildingIcon size={48} className="text-gray-900" />
                 <div>
                   <strong className="text-[#00A877] font-extrabold text-[22px] md:text-[26px] lg:text-[28px] leading-tight block">

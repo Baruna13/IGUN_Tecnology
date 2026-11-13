@@ -51,7 +51,7 @@ export function AppShell() {
   }, [isHomeOpen, isReady, transition, openTutorial]);
 
   const page = isHomeOpen ? (
-    <HomePage schools={schoolsInStore} onOpenMap={openMap} />
+    <HomePage schools={schoolsInStore} ready={!transition} onOpenMap={openMap} />
   ) : (
     <div className="h-screen w-screen flex flex-col bg-surface overflow-hidden">
       <TopNav onHome={openHome} />

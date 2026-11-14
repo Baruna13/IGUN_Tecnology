@@ -277,7 +277,7 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 100%, rgba(0,0,0,0.10) 100%), url('/images/hero-map.jpg')`,
+                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 100%, rgba(0,0,0,0.10) 100%), url('/images/hero-map.webp')`,
               }}
             />
 
@@ -330,8 +330,10 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
               className="lg:col-span-5 border-[3px] border-[#2ec4b6] rounded-[22px] overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-[1.015] bg-[#edf6f4] relative group"
             >
               <img
-                src="/images/map-preview.jpg"
+                src="/images/map-preview.webp"
                 alt="Pratinjau Peta Interaktif"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-[260px] md:h-[320px] lg:h-[360px] object-cover block"
               />
               <div className="absolute inset-0 bg-[#00B38C]/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

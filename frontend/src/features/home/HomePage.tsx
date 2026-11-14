@@ -143,26 +143,6 @@ function CityBuildingIcon({
   );
 }
 
-// Ikon Topi Toga Miring Putih
-function HeroMortarboardIcon({ className = "w-16 h-16 md:w-22 md:h-22 lg:w-26 lg:h-26" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="capShadow" x="-20%" y="-20%" width="150%" height="150%">
-          <feDropShadow dx="0" dy="8" stdDeviation="6" floodColor="rgba(0,0,0,0.35)" />
-        </filter>
-      </defs>
-      <g filter="url(#capShadow)" transform="rotate(-6 50 40)">
-        <path d="M26 36V50C26 56 37 61 50 61C63 61 74 56 74 50V36L50 48L26 36Z" fill="#F1F5F9" />
-        <polygon points="50,12 92,32 50,48 8,32" fill="#FFFFFF" />
-        <circle cx="50" cy="30" r="3" fill="#E2E8F0" />
-        <path d="M50 30 Q30 33 22 44" stroke="#FFFFFF" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        <rect x="19" y="44" width="6" height="12" rx="2" fill="#FFFFFF" />
-      </g>
-    </svg>
-  );
-}
-
 export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
   const setHome = useSchoolFinderStore((s) => s.setHome);
   const [activeNav, setActiveNav] = useState("beranda");
@@ -174,7 +154,7 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
       ({ coords }) => {
         setHome([coords.longitude, coords.latitude], "Lokasi Anda saat ini");
       },
-      () => {},
+      () => { },
       { enableHighAccuracy: true, timeout: 10_000 }
     );
   }, [setHome]);
@@ -252,22 +232,20 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
             <a
               href="#beranda"
               onClick={() => setActiveNav("beranda")}
-              className={`text-[14.5px] md:text-[16px] font-bold tracking-tight pb-1 transition-colors ${
-                activeNav === "beranda"
-                  ? "text-[#00B38C] border-b-2 border-[#00B38C]"
-                  : "text-gray-600 hover:text-[#00B38C]"
-              }`}
+              className={`text-[14.5px] md:text-[16px] font-bold tracking-tight pb-1 transition-colors ${activeNav === "beranda"
+                ? "text-[#00B38C] border-b-2 border-[#00B38C]"
+                : "text-gray-600 hover:text-[#00B38C]"
+                }`}
             >
               Beranda
             </a>
             <a
               href="#kenapa"
               onClick={() => setActiveNav("kenapa")}
-              className={`text-[14.5px] md:text-[16px] font-semibold tracking-tight pb-1 transition-colors ${
-                activeNav === "kenapa"
-                  ? "text-[#00B38C] border-b-2 border-[#00B38C]"
-                  : "text-gray-600 hover:text-[#00B38C]"
-              }`}
+              className={`text-[14.5px] md:text-[16px] font-semibold tracking-tight pb-1 transition-colors ${activeNav === "kenapa"
+                ? "text-[#00B38C] border-b-2 border-[#00B38C]"
+                : "text-gray-600 hover:text-[#00B38C]"
+                }`}
             >
               Mengapa EduZone
             </a>
@@ -277,11 +255,10 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
                 setActiveNav("sekolah");
                 onOpenMap();
               }}
-              className={`text-[14.5px] md:text-[16px] font-semibold tracking-tight pb-1 bg-transparent border-0 cursor-pointer transition-colors ${
-                activeNav === "sekolah"
-                  ? "text-[#00B38C] border-b-2 border-[#00B38C]"
-                  : "text-gray-600 hover:text-[#00B38C]"
-              }`}
+              className={`text-[14.5px] md:text-[16px] font-semibold tracking-tight pb-1 bg-transparent border-0 cursor-pointer transition-colors ${activeNav === "sekolah"
+                ? "text-[#00B38C] border-b-2 border-[#00B38C]"
+                : "text-gray-600 hover:text-[#00B38C]"
+                }`}
             >
               Sekolah Terdekat
             </button>
@@ -300,25 +277,14 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.42) 50%, rgba(0,0,0,0.72) 100%), url('/images/hero-map.jpeg')`,
+                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 100%, rgba(0,0,0,0.10) 100%), url('/images/hero-map.jpg')`,
               }}
             />
 
             {/* Isi Konten Hero */}
             <div className="relative z-10 max-w-[960px] flex flex-col items-center">
-              <div className="flex items-center justify-center gap-3 md:gap-5 mb-5 select-none">
-                <HeroMortarboardIcon />
-                <h1 className="text-white font-extrabold text-[42px] md:text-[66px] lg:text-[78px] leading-tight tracking-tight drop-shadow-[0_8px_18px_rgba(0,0,0,0.45)]">
-                  Education&nbsp;
-                  <ZoneText className="text-[42px] md:text-[66px] lg:text-[78px]" />
-                </h1>
-              </div>
 
-              <p className="text-white/95 text-[15px] md:text-[17.5px] lg:text-[19px] font-medium leading-[1.75] max-w-[900px] drop-shadow-[0_4px_8px_rgba(0,0,0,0.75)] px-4">
-                EDU ZONE Kota Bogor menggabungkan analitik geospasial Ina-Geoportal, simulasi catchment area poligon 1.500m,
-                dan kalkulasi jarak geodesik gerbang-ke-gerbang untuk memverifikasi peluang lolos pendaftaran sekolah negeri
-                secara transparan.
-              </p>
+
             </div>
           </div>
         </section>
@@ -326,15 +292,18 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
         {/* ── 2. GIS SIMULATION CARD ── */}
         <section className="w-[94%] max-w-[1680px] mx-auto pb-8 md:pb-10">
           <div
-            className={`bg-[#404040] rounded-[26px] p-8 md:p-12 lg:p-14 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${enterLeft(ready)}`}
-            style={{ "--d": "150ms" } as CSSProperties}
+            className={`bg-[#CFCFCF] rounded-[26px] p-8 md:p-12 lg:p-14 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${enterLeft(ready)}`}
+            style={{
+              "--d": "150ms",
+              backgroundColor: "#CFCFCF"
+            } as CSSProperties}
           >
             {/* Kolom Kiri: Teks & Tombol */}
             <div className="lg:col-span-7 flex flex-col justify-center">
-              <h2 className="text-white font-bold text-[26px] md:text-[32px] lg:text-[36px] leading-[1.22] tracking-tight">
+              <h2 className="text-gray-900 font-bold text-[26px] md:text-[32px] lg:text-[36px] leading-[1.22] tracking-tight">
                 Simulasi Peta Zonasi Interaktif<br />Berbasis Koordinat Nyata
               </h2>
-              <p className="text-gray-300 text-[14.5px] md:text-[16px] lg:text-[17px] leading-relaxed mt-4 mb-8 max-w-[680px]">
+              <p className="text-gray-800 text-[14.5px] md:text-[16px] lg:text-[17px] leading-relaxed mt-4 mb-8 max-w-[680px]">
                 Peta interaktif EDU ZONE Kota Bogor memproyeksikan kontur radius buffer, densitas pendaftar per kelurahan,
                 dan pergeseran ambang kelulusan secara dinamis. Anda dapat langsung menggeser titik pin lokasi rumah untuk
                 melihat perubahan probabilitas secara instan.
@@ -343,7 +312,7 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
                 <button
                   type="button"
                   onClick={() => onOpenMap()}
-                  className="bg-[#00B38C] hover:bg-[#009e7a] text-white font-bold text-[14.5px] md:text-[16px] py-3.5 px-8 rounded-xl inline-flex items-center gap-3 transition-all shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
+                  className="bg-[#00B38C] hover:bg-[#449a78] text-white font-bold text-[14.5px] md:text-[16px] py-3.5 px-8 rounded-xl inline-flex items-center gap-3 transition-all shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
                 >
                   <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
@@ -396,39 +365,39 @@ export function HomePage({ schools, ready = true, onOpenMap }: HomePageProps) {
               </p>
 
               <div ref={whyStatsRef} className="opacity-0 -translate-x-24 transition-all duration-700 ease-out">
-              {/* Garis Pembatas Atas Statistik */}
-              <div className="border-t border-gray-300 w-full mb-8" />
+                {/* Garis Pembatas Atas Statistik */}
+                <div className="border-t border-gray-300 w-full mb-8" />
 
-              {/* Tiga Statistik Berjajar */}
-              <div className="flex items-start justify-between gap-6 max-w-[560px]">
-                <div>
-                  <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
-                    <AnimatedCounter target={publicSchools.length || 27} ready={ready} delay={650} />
-                  </strong>
-                  <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
-                    Sekolah Negeri<br />Terdaftar
-                  </span>
+                {/* Tiga Statistik Berjajar */}
+                <div className="flex items-start justify-between gap-6 max-w-[560px]">
+                  <div>
+                    <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
+                      <AnimatedCounter target={publicSchools.length || 27} ready={ready} delay={650} />
+                    </strong>
+                    <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
+                      Sekolah Negeri<br />Terdaftar
+                    </span>
+                  </div>
+                  <div>
+                    <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
+                      <AnimatedCounter target={accreditedSchools.length || 7} ready={ready} delay={650} />
+                    </strong>
+                    <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
+                      Akreditasi A<br />& Lebih
+                    </span>
+                  </div>
+                  <div>
+                    <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
+                      <AnimatedCounter target={averageScore} ready={ready} delay={650} />
+                    </strong>
+                    <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
+                      Rata-rata<br />Skor Akreditasi
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
-                    <AnimatedCounter target={accreditedSchools.length || 7} ready={ready} delay={650} />
-                  </strong>
-                  <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
-                    Akreditasi A<br />& Lebih
-                  </span>
-                </div>
-                <div>
-                  <strong className="text-[#00B38C] font-extrabold text-[34px] md:text-[44px] lg:text-[50px] leading-none block">
-                    <AnimatedCounter target={averageScore} ready={ready} delay={650} />
-                  </strong>
-                  <span className="text-gray-500 text-[12.5px] md:text-[14px] lg:text-[14.5px] font-medium leading-tight block mt-2">
-                    Rata-rata<br />Skor Akreditasi
-                  </span>
-                </div>
-              </div>
 
-              {/* Garis Pembatas Bawah Statistik */}
-              <div className="border-t border-gray-300 w-full mt-8 mb-8" />
+                {/* Garis Pembatas Bawah Statistik */}
+                <div className="border-t border-gray-300 w-full mt-8 mb-8" />
 
               </div>
 

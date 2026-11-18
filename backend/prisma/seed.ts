@@ -17,16 +17,29 @@ const SCHOOLS_GEOJSON_PATH = path.resolve(__dirname, "../../qgis/schools.geojson
  * from qgis/schools.geojson.
  */
 const POLICY_DEFAULTS: Record<string, { accreditation: "A" | "B" | "C"; accreditationScore: number; quota: number }> = {
-  "20220342": { accreditation: "A", accreditationScore: 98, quota: 324 }, // SMA Negeri 1
-  "20238516": { accreditation: "A", accreditationScore: 93, quota: 312 }, // SMA Negeri 2
-  "20220332": { accreditation: "A", accreditationScore: 95, quota: 288 }, // SMA Negeri 3
-  "20220334": { accreditation: "A", accreditationScore: 90, quota: 300 }, // SMA Negeri 4
-  "20238517": { accreditation: "A", accreditationScore: 88, quota: 280 }, // SMA Negeri 5
-  "20220335": { accreditation: "B", accreditationScore: 84, quota: 270 }, // SMA Negeri 6
-  "20220336": { accreditation: "A", accreditationScore: 86, quota: 256 }, // SMA Negeri 7
-  "20220337": { accreditation: "B", accreditationScore: 81, quota: 264 }, // SMA Negeri 8
-  "20220338": { accreditation: "A", accreditationScore: 89, quota: 292 }, // SMA Negeri 9
-  "20220341": { accreditation: "B", accreditationScore: 83, quota: 260 }, // SMA Negeri 10
+  // Kota Bogor
+  "20220342": { accreditation: "A", accreditationScore: 98, quota: 324 }, // SMA Negeri 1 Bogor
+  "20238516": { accreditation: "A", accreditationScore: 93, quota: 312 }, // SMA Negeri 2 Bogor
+  "20220332": { accreditation: "A", accreditationScore: 95, quota: 288 }, // SMA Negeri 3 Bogor
+  "20220334": { accreditation: "A", accreditationScore: 90, quota: 300 }, // SMA Negeri 4 Bogor
+  "20238517": { accreditation: "A", accreditationScore: 88, quota: 280 }, // SMA Negeri 5 Bogor
+  "20220335": { accreditation: "B", accreditationScore: 84, quota: 270 }, // SMA Negeri 6 Bogor
+  "20220336": { accreditation: "A", accreditationScore: 86, quota: 256 }, // SMA Negeri 7 Bogor
+  "20220337": { accreditation: "B", accreditationScore: 81, quota: 264 }, // SMA Negeri 8 Bogor
+  "20220338": { accreditation: "A", accreditationScore: 89, quota: 292 }, // SMA Negeri 9 Bogor
+  "20220341": { accreditation: "B", accreditationScore: 83, quota: 260 }, // SMA Negeri 10 Bogor
+  // Kabupaten Bogor (OSM-sourced; placeholder policy data until Dapodik is wired in)
+  "OSM-19271798":    { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Ciomas
+  "OSM-327363963":   { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Cileungsi
+  "OSM-589235481":   { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Citeureup
+  "OSM-1268029261":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Gunung Putri
+  "OSM-1286191540":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Dramaga
+  "OSM-1287231187":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Rancabungur
+  "OSM-1292528396":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Ciampea
+  "OSM-1296218248":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Rumpin
+  "OSM-1302541075":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Gunungsindur
+  "OSM-1361089469":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Babakan Madang
+  "69926270":        { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Cileungsi
 };
 const DEFAULT_POLICY = { accreditation: "B" as const, accreditationScore: 80, quota: 250 };
 const DEFAULT_ZONE_RADIUS_METERS = 1500;

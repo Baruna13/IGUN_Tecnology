@@ -279,18 +279,10 @@ export function TopNav({ onHome }: { onHome: () => void }) {
             <span className="material-symbols-outlined text-[20px]">notifications</span>
           </button>
 
-          <div className="flex items-center gap-3 pl-3 border-l border-gray-200/60 dark:border-gray-700/40">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
-              CS
-            </div>
-            <div className="hidden md:flex flex-col leading-tight">
-              <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                Calon Siswa
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                Domisili Bogor
-              </span>
-            </div>
+          <div className="hidden md:flex items-center pl-3 border-l border-gray-200/60 dark:border-gray-700/40">
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              Domisili Bogor
+            </span>
           </div>
         </div>
       </div>

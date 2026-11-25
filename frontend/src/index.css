@@ -72,6 +72,11 @@
   color: #006c46 !important;
 }
 
+/* Clicking a map shape focuses it, and the browser then outlines its whole bounding box. */
+.leaflet-container path.leaflet-interactive:focus {
+  outline: none;
+}
+
 /* Hide default zoom control; we render our own floating dock */
 .leaflet-control-zoom {
   display: none;

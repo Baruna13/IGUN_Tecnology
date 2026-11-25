@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useRef } from "react";
 import { GeoJSON, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
+import { bbox } from "@turf/turf";
 import { MAP_CENTER, MAP_DEFAULT_ZOOM } from "../../data/mapDefaults";
 import { ADMIN_BOUNDARIES } from "../../data/adminBoundary";
+import { KOTA_BOGOR_BOUNDARY } from "../../data/kotaBogorBoundary";
+import { SCHOOL_AREA } from "../../data/schoolArea";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
 import { useEligibility, useRecommendations } from "../../hooks/useAnalysis";
 import { buildZoneBuffer, formatDistance } from "../../services/spatialAnalysis";
@@ -13,12 +16,16 @@ import { Legend } from "./Legend";
 import { FloatingHint } from "./FloatingHint";
 import type { School } from "../../types/school";
 
-const INDONESIA_BOUNDS: [[number, number], [number, number]] = [
-  [-11.2, 94.7],
-  [6.1, 141.1],
+// Peta dikunci di sekitar area sekolah, dengan ruang geser agar tepinya tidak tertutup panel.
+const PAN_MARGIN_DEGREES = 0.35;
+const [AREA_WEST, AREA_SOUTH, AREA_EAST, AREA_NORTH] = bbox(SCHOOL_AREA);
+const MAP_BOUNDS: [[number, number], [number, number]] = [
+  [AREA_SOUTH - PAN_MARGIN_DEGREES, AREA_WEST - PAN_MARGIN_DEGREES],
+  [AREA_NORTH + PAN_MARGIN_DEGREES, AREA_EAST + PAN_MARGIN_DEGREES],
 ];
-const MAP_MIN_ZOOM = 3.5;
-const MAP_MAX_ZOOM = 19;
+/** Paling jauh: seluruh area sekolah masih terlihat. Paling dekat: tingkat jalan. */
+const MAP_MIN_ZOOM = 11;
+const MAP_MAX_ZOOM = 18;
 
 function toLatLng([lng, lat]: [number, number]): [number, number] {
   return [lat, lng];
@@ -92,7 +99,7 @@ export function MapView() {
       zoom={MAP_DEFAULT_ZOOM}
       minZoom={MAP_MIN_ZOOM}
       maxZoom={MAP_MAX_ZOOM}
-      maxBounds={INDONESIA_BOUNDS}
+      maxBounds={MAP_BOUNDS}
       maxBoundsViscosity={1}
       zoomControl={false}
       className="w-full h-full"
@@ -109,6 +116,21 @@ export function MapView() {
       <ClickToSetHome />
       <FlyToSelection school={selectedSchool} />
       <FlyToSearchLocation />
+
+      {layers.schoolArea && (
+        <>
+          <GeoJSON
+            data={SCHOOL_AREA}
+            interactive={false}
+            style={{ color: "#7c3aed", weight: 3, dashArray: "10,6", fill: false }}
+          />
+          <GeoJSON
+            data={KOTA_BOGOR_BOUNDARY}
+            interactive={false}
+            style={{ color: "#7c3aed", weight: 2, fill: false }}
+          />
+        </>
+      )}
 
       {layers.adminBoundary && (
         <GeoJSON

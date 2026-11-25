@@ -24,6 +24,28 @@ export function AppShell() {
     if (schoolsQuery.data) setSchools(schoolsQuery.data);
   }, [schoolsQuery.data, setSchools]);
 
+  // Izin lokasi bisa dicabut kapan saja, termasuk saat peta sedang terbuka.
+  const clearGpsHome = useSchoolFinderStore((s) => s.clearGpsHome);
+  useEffect(() => {
+    let permission: PermissionStatus | undefined;
+    let cancelled = false;
+    const onChange = () => {
+      if (permission?.state !== "granted") clearGpsHome();
+    };
+    navigator.permissions
+      ?.query({ name: "geolocation" })
+      .then((status) => {
+        if (cancelled) return;
+        permission = status;
+        status.addEventListener("change", onChange);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+      permission?.removeEventListener("change", onChange);
+    };
+  }, [clearGpsHome]);
+
   const isReady = schoolsInStore.length > 0;
   const openMap = (schoolId?: string) => {
     if (transition) return; // abaikan klik saat transisi berjalan

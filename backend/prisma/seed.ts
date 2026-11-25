@@ -28,18 +28,18 @@ const POLICY_DEFAULTS: Record<string, { accreditation: "A" | "B" | "C"; accredit
   "20220337": { accreditation: "B", accreditationScore: 81, quota: 264 }, // SMA Negeri 8 Bogor
   "20220338": { accreditation: "A", accreditationScore: 89, quota: 292 }, // SMA Negeri 9 Bogor
   "20220341": { accreditation: "B", accreditationScore: 83, quota: 260 }, // SMA Negeri 10 Bogor
-  // Kabupaten Bogor (OSM-sourced; placeholder policy data until Dapodik is wired in)
-  "OSM-19271798":    { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Ciomas
-  "OSM-327363963":   { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Cileungsi
-  "OSM-589235481":   { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Citeureup
-  "OSM-1268029261":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Gunung Putri
-  "OSM-1286191540":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Dramaga
-  "OSM-1287231187":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Rancabungur
-  "OSM-1292528396":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Ciampea
-  "OSM-1296218248":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Rumpin
-  "OSM-1302541075":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Gunungsindur
-  "OSM-1361089469":  { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Babakan Madang
-  "69926270":        { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Cileungsi
+  // Kabupaten Bogor (placeholder policy data until Dapodik is wired in). Schools not listed here use DEFAULT_POLICY.
+  "20232374": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Ciomas
+  "20200681": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Cileungsi
+  "20200603": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Citeureup
+  "20270776": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Gunung Putri
+  "20232377": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Dramaga
+  "69754446": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Rancabungur
+  "20200676": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Ciampea
+  "20200903": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Rumpin
+  "20231331": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Gunungsindur
+  "20231322": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Babakan Madang
+  "69926270": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Cileungsi
 };
 const DEFAULT_POLICY = { accreditation: "B" as const, accreditationScore: 80, quota: 250 };
 const DEFAULT_ZONE_RADIUS_METERS = 1500;

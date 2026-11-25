@@ -1,6 +1,8 @@
 import { apiClient } from "./client";
 import type { School, SchoolLevel, SchoolStatus } from "../types/school";
 import { SCHOOLS } from "../data/schools";
+import { SCHOOL_AREA } from "../data/schoolArea";
+import { isWithinZone } from "../services/spatialAnalysis";
 
 interface SchoolApiDTO {
   id: string;
@@ -39,12 +41,17 @@ function mapSchool(dto: SchoolApiDTO): School {
   };
 }
 
+/** Keeps only schools in Kota Bogor or within the margin around it. */
+function onlyInSchoolArea(schools: School[]): School[] {
+  return schools.filter((school) => isWithinZone(school.coordinates, SCHOOL_AREA));
+}
+
 export async function fetchSchools(): Promise<School[]> {
   try {
     const schools = await apiClient.get<SchoolApiDTO[]>("/schools");
-    return schools.map(mapSchool);
+    return onlyInSchoolArea(schools.map(mapSchool));
   } catch {
-    return SCHOOLS;
+    return onlyInSchoolArea(SCHOOLS);
   }
 }
 

@@ -8,4 +8,4 @@ export const DEFAULT_HOME_LABEL = "Jl. Pangrango No. 14";
 
 /** Centroid of the seeded Kota + Kabupaten Bogor schools; used to init the map viewport. */
 export const MAP_CENTER: [number, number] = [-6.5302, 106.8005];
-export const MAP_DEFAULT_ZOOM = 10;
+export const MAP_DEFAULT_ZOOM = 11;

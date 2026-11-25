@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { ADDRESS_SUGGESTIONS } from "../data/addresses";
+import { bbox } from "@turf/turf";
+import { SCHOOL_AREA } from "../data/schoolArea";
+import { isWithinZone } from "../services/spatialAnalysis";
+import { loadStreets, searchStreets, type Street } from "../services/streetSearch";
 import { useSchoolFinderStore } from "../hooks/useSchoolFinderStore";
 import { useTutorialStore } from "../features/tutorial/useTutorialStore";
 import type { School } from "../types/school";
@@ -20,27 +23,34 @@ function matchesQuery(value: string, query: string) {
 }
 
 
-// Kotak batas Kota Bogor: kiri, atas, kanan, bawah (lon,lat)
-const BOGOR_VIEWBOX = "106.70,-6.50,106.90,-6.68";
+// Kotak luar area sekolah (Kota Bogor + 6 km): kiri, atas, kanan, bawah (lon,lat)
+const [AREA_WEST, AREA_SOUTH, AREA_EAST, AREA_NORTH] = bbox(SCHOOL_AREA);
+const AREA_VIEWBOX = [AREA_WEST, AREA_NORTH, AREA_EAST, AREA_SOUTH].join(",");
+/** Batas baris yang dirender, agar kata kunci sangat umum tidak memberatkan halaman. */
+const MAX_STREET_RESULTS = 200;
 
-async function geocodeBogor(query: string, signal: AbortSignal): Promise<SearchAddress[]> {
+/** Tempat selain jalan (perumahan, gedung, dsb.); nama jalan dicari di indeks lokal. */
+async function geocodePlaces(query: string, signal: AbortSignal): Promise<SearchAddress[]> {
   const params = new URLSearchParams({
     q: query,
     format: "jsonv2",
     limit: "5",
     countrycodes: "id",
-    viewbox: BOGOR_VIEWBOX,
+    viewbox: AREA_VIEWBOX,
     bounded: "1",
     "accept-language": "id",
   });
   const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, { signal });
   if (!res.ok) throw new Error(`Geocoder error ${res.status}`);
-  const rows = (await res.json()) as Array<{ display_name: string; lat: string; lon: string }>;
-  return rows.map((r) => ({
-    label: r.display_name.split(",").slice(0, 3).join(",").trim(),
-    detail: r.display_name,
-    coordinates: [parseFloat(r.lon), parseFloat(r.lat)] as [number, number],
-  }));
+  const rows = (await res.json()) as Array<{ category: string; display_name: string; lat: string; lon: string }>;
+  return rows
+    .filter((r) => r.category !== "highway")
+    .map((r) => ({
+      label: r.display_name.split(",").slice(0, 3).join(",").trim(),
+      detail: r.display_name,
+      coordinates: [parseFloat(r.lon), parseFloat(r.lat)] as [number, number],
+    }))
+    .filter((r) => isWithinZone(r.coordinates, SCHOOL_AREA));
 }
 
 export function TopNav({ onHome }: { onHome: () => void }) {
@@ -56,8 +66,29 @@ export function TopNav({ onHome }: { onHome: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [remoteAddresses, setRemoteAddresses] = useState<SearchAddress[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [streets, setStreets] = useState<Street[] | null>(null);
+  const home = useSchoolFinderStore((s) => s.home);
 
-  // Cari alamat sungguhan (Nominatim) dengan jeda 600 ms agar tidak membanjiri server
+  // Indeks jalan cukup besar, jadi baru dimuat saat mode alamat dipakai
+  useEffect(() => {
+    if (mode !== "address" || streets) return;
+    let cancelled = false;
+    loadStreets()
+      .then((rows) => {
+        if (!cancelled) setStreets(rows);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [mode, streets]);
+
+  const streetMatches = useMemo(
+    () => (mode === "address" && streets ? searchStreets(streets, query, home.coordinates) : []),
+    [mode, streets, query, home.coordinates]
+  );
+
+  // Cari tempat selain jalan (Nominatim) dengan jeda 600 ms agar tidak membanjiri server
   useEffect(() => {
     const q = query.trim();
     if (mode !== "address" || q.length < 3) {
@@ -68,7 +99,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
     const controller = new AbortController();
     setIsSearching(true);
     const timer = setTimeout(() => {
-      geocodeBogor(q, controller.signal)
+      geocodePlaces(q, controller.signal)
         .then((rows) => setRemoteAddresses(rows))
         .catch((err) => {
           if (err?.name !== "AbortError") setRemoteAddresses([]);
@@ -95,13 +126,17 @@ export function TopNav({ onHome }: { onHome: () => void }) {
 
     const addresses: SearchAddress[] = [
       ...remoteAddresses,
-      ...ADDRESS_SUGGESTIONS,
       ...schools.map((school) => ({
         label: school.address,
         coordinates: school.coordinates,
         detail: school.name,
       })),
     ];
+    const streetResults: SearchAddress[] = streetMatches.slice(0, MAX_STREET_RESULTS).map((street) => ({
+      label: street.name,
+      detail: street.place,
+      coordinates: street.coordinates,
+    }));
     const uniqueAddresses = addresses.filter(
       (address, index) => addresses.findIndex((item) => item.label === address.label) === index
     );
@@ -112,8 +147,8 @@ export function TopNav({ onHome }: { onHome: () => void }) {
           (a) => remoteLabels.has(a.label) || matchesQuery(`${a.label} ${a.detail ?? ""}`, q)
         )
       : uniqueAddresses;
-    return matched.slice(0, 8);
-  }, [query, mode, schools, remoteAddresses]);
+    return [...streetResults, ...matched.slice(0, 8)];
+  }, [query, mode, schools, remoteAddresses, streetMatches]);
 
   return (
     <header className="relative z-[1100] h-auto min-h-16 sm:h-16 shrink-0 bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl border-b border-emerald-100/50 dark:border-emerald-900/30">
@@ -193,7 +228,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
               placeholder={
                 mode === "school"
                   ? "Cari Sekolah Negeri..."
-                  : "Cari alamat domisili..."
+                  : "Cari nama jalan atau alamat..."
               }
               className="bg-transparent min-w-0 flex-1 text-body-md text-gray-700 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none"
             />
@@ -202,7 +237,14 @@ export function TopNav({ onHome }: { onHome: () => void }) {
           {/* === HASIL PENCARIAN === */}
           {isOpen && query.trim() && (
             <div role="listbox" onMouseDown={(e) => e.preventDefault()} className="absolute top-12 left-0 right-0 max-h-[min(60vh,24rem)] overflow-y-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl p-space-2xs shadow-xl border border-gray-200/80 dark:border-gray-700/40 z-50">
-              {isSearching && mode === "address" && (
+              {mode === "address" && streetMatches.length > 0 && (
+                <p className="px-space-sm py-2 text-label-sm text-gray-500 dark:text-gray-400" role="status">
+                  {streetMatches.length > MAX_STREET_RESULTS
+                    ? `Menampilkan ${MAX_STREET_RESULTS} dari ${streetMatches.length} jalan, perjelas kata kunci`
+                    : `${streetMatches.length} jalan ditemukan di area Bogor`}
+                </p>
+              )}
+              {isSearching && mode === "address" && results.length === 0 && (
                 <p className="px-space-sm py-2 text-label-sm text-gray-500 dark:text-gray-400" role="status">
                   Mencari alamat...
                 </p>
@@ -249,7 +291,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
                       }}
                       className="w-full min-w-0 text-left px-space-sm py-2 rounded-xl hover:bg-emerald-50 focus-visible:bg-emerald-50 dark:hover:bg-emerald-900/20 dark:focus-visible:bg-emerald-900/20 focus-visible:outline-none transition-colors flex items-center gap-space-xs"
                     >
-                      <span className="material-symbols-outlined text-[16px] text-emerald-500">home_pin</span>
+                      <span className="material-symbols-outlined text-[16px] text-emerald-500">location_on</span>
                       <span className="min-w-0 flex flex-col text-left">
                         <span className="text-body-sm text-gray-700 dark:text-gray-200">{addr.label}</span>
                         {addr.detail && <span className="text-label-sm text-gray-500 dark:text-gray-400">{addr.detail}</span>}
@@ -260,7 +302,7 @@ export function TopNav({ onHome }: { onHome: () => void }) {
           )}
         </div>
 
-        {/* === TOMBOL PANDUAN & PROFIL PENGGUNA === */}
+        {/* === TOMBOL PANDUAN & NOTIFIKASI === */}
         <div className="flex items-center gap-3 shrink-0">
           <button
             type="button"
@@ -278,20 +320,6 @@ export function TopNav({ onHome }: { onHome: () => void }) {
           >
             <span className="material-symbols-outlined text-[20px]">notifications</span>
           </button>
-
-          <div className="flex items-center gap-3 pl-3 border-l border-gray-200/60 dark:border-gray-700/40">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
-              CS
-            </div>
-            <div className="hidden md:flex flex-col leading-tight">
-              <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                Calon Siswa
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                Domisili Bogor
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </header>

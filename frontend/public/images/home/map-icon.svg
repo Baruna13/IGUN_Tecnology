@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Map" clip-path="url(#clip0_0_11)">
+<path id="Icon" d="M25.3333 9.25L12.6667 3.08333L1.58333 9.25V33.9167L12.6667 27.75M25.3333 9.25L36.4167 3.08333V27.75L25.3333 33.9167L12.6667 27.75M12.6667 27.75V3.08333M25.3333 33.9167V9.25" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="white"/>
+</g>
+<defs>
+<clipPath id="clip0_0_11">
+<rect width="38" height="37" fill="white"/>
+</clipPath>
+</defs>
+</svg>

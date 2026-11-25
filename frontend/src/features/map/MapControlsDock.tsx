@@ -9,6 +9,7 @@ export function MapControlsDock() {
   const controlsRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(map.getZoom());
   const home = useSchoolFinderStore((s) => s.home);
+  const isGps = useSchoolFinderStore((s) => s.homeSource === "gps");
   const isLayersPanelOpen = useSchoolFinderStore((s) => s.isLayersPanelOpen);
   const toggleLayersPanel = useSchoolFinderStore((s) => s.toggleLayersPanel);
 
@@ -42,7 +43,7 @@ export function MapControlsDock() {
         title="Pusatkan ke Domisili"
         onClick={() => map.flyTo([home.coordinates[1], home.coordinates[0]], 15.5, { duration: 1 })}
       >
-        <span className="material-symbols-outlined text-[20px]">gps_fixed</span>
+        <span className="material-symbols-outlined text-[20px]">{isGps ? "gps_fixed" : "home_pin"}</span>
       </button>
       <div className="h-px w-6 bg-surface-container-highest mx-auto my-0.5" />
       <button

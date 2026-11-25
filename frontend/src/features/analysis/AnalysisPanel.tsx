@@ -14,6 +14,7 @@ export function AnalysisPanel() {
   const recommendations = useRecommendations();
   const selectSchool = useSchoolFinderStore((s) => s.selectSchool);
   const home = useSchoolFinderStore((s) => s.home);
+  const homeSource = useSchoolFinderStore((s) => s.homeSource);
   const [mobileExpanded, setMobileExpanded] = useState(false);
 
   const isTutorialOpen = useTutorialStore((s) => s.isOpen);
@@ -56,7 +57,9 @@ export function AnalysisPanel() {
             <span className="w-2 h-2 rounded-full bg-secondary shadow-glow-secondary animate-pulse" />
             <span className="font-label-md text-label-md text-[#1f2937] font-semibold">Analisis Domisili SPMB</span>
           </div>
-          <Badge tone="success">GPS Aktif</Badge>
+          <Badge tone={homeSource === "gps" ? "success" : "neutral"}>
+            {homeSource === "gps" ? "GPS Aktif" : homeSource === "manual" ? "Lokasi Manual" : "GPS Nonaktif"}
+          </Badge>
         </div>
 
         <div className="flex flex-col gap-space-2xs">

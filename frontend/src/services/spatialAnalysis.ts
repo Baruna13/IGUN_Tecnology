@@ -1,4 +1,4 @@
-import { point, buffer as turfBuffer, distance as turfDistance, booleanPointInPolygon } from "@turf/turf";
+import { point, buffer as turfBuffer, distance as turfDistance, booleanPointInPolygon, simplify } from "@turf/turf";
 import type { Feature, Polygon } from "geojson";
 import type { EligibilityResult, RecommendedSchool, School } from "../types/school";
 
@@ -24,6 +24,17 @@ export function buildZoneBuffer(coordinates: [number, number], radiusMeters: num
  */
 export function isWithinZone(home: [number, number], zone: Feature<Polygon>): boolean {
   return booleanPointInPolygon(point(home), zone);
+}
+
+/**
+ * Pushes an area's outline outward by a distance in meters, keeping its
+ * overall shape. The outline is simplified to ~100 m first: a margin of
+ * kilometers smooths that detail away anyway, and buffering the full outline
+ * is about 10x slower.
+ */
+export function buildAreaBuffer(area: Feature<Polygon>, marginMeters: number): Feature<Polygon> {
+  const outline = simplify(area, { tolerance: 0.001, highQuality: true });
+  return turfBuffer(outline, marginMeters / 1000, { units: "kilometers", steps: 16 }) as Feature<Polygon>;
 }
 
 /**

@@ -215,7 +215,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMA Negeri 1 Ciomas",
-        "npsn": "OSM-19271798",
+        "npsn": "20232374",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Ciomas, Kab. Bogor",
@@ -236,7 +236,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Cileungsi",
-        "npsn": "OSM-327363963",
+        "npsn": "20200681",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Cileungsi, Kab. Bogor",
@@ -257,7 +257,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Citeureup",
-        "npsn": "OSM-589235481",
+        "npsn": "20200603",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Citeureup, Kab. Bogor",
@@ -278,7 +278,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 2 Gunung Putri",
-        "npsn": "OSM-1268029261",
+        "npsn": "20270776",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Gunung Putri, Kab. Bogor",
@@ -299,7 +299,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Dramaga",
-        "npsn": "OSM-1286191540",
+        "npsn": "20232377",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Dramaga, Kab. Bogor",
@@ -320,7 +320,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMA Negeri 1 Rancabungur",
-        "npsn": "OSM-1287231187",
+        "npsn": "69754446",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Rancabungur, Kab. Bogor",
@@ -341,7 +341,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Ciampea",
-        "npsn": "OSM-1292528396",
+        "npsn": "20200676",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Ciampea, Kab. Bogor",
@@ -362,7 +362,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Rumpin",
-        "npsn": "OSM-1296218248",
+        "npsn": "20200903",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Rumpin, Kab. Bogor",
@@ -383,7 +383,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Gunungsindur",
-        "npsn": "OSM-1302541075",
+        "npsn": "20231331",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Gunungsindur, Kab. Bogor",
@@ -404,7 +404,7 @@
       "type": "Feature",
       "properties": {
         "name": "SMAN 1 Babakan Madang",
-        "npsn": "OSM-1361089469",
+        "npsn": "20231322",
         "level": "SMA",
         "status": "NEGERI",
         "district": "Kec. Babakan Madang, Kab. Bogor",
@@ -439,6 +439,804 @@
         "coordinates": [
           106.97770894459035,
           -6.393842829224298
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Nanggung",
+        "npsn": "20254612",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Nanggung, Kab. Bogor",
+        "subdistrict": "Nanggung",
+        "address": "Jl. Pasir Sari, Nanggung, Kec. Nanggung, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.537,
+          -6.6074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Leuwiliang",
+        "npsn": "20200601",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Leuwiliang, Kab. Bogor",
+        "subdistrict": "Leuwiliang",
+        "address": "Jl. Raya Leuwiliang, Kp. Sawah Kulon No. 47, Leuwiliang, Kec. Leuwiliang, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6293,
+          -6.5721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Pamijahan",
+        "npsn": "20231334",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Pamijahan, Kab. Bogor",
+        "subdistrict": "Gunung Sari",
+        "address": "Jl. Gunung Salak Endah Km. 03, Gunung Sari, Kec. Pamijahan, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6632,
+          -6.6685
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cibungbulang",
+        "npsn": "20231324",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cibungbulang, Kab. Bogor",
+        "subdistrict": "Cibatok 1",
+        "address": "Jl. Kapten Dasuki Bakri, Cibatok 1, Kec. Cibungbulang, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6629,
+          -6.5874
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cijeruk",
+        "npsn": "20271050",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cijeruk, Kab. Bogor",
+        "subdistrict": "Cijeruk",
+        "address": "Jl. K.H. Halimi Gegerbitung Hongbu, Cijeruk, Kec. Cijeruk, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7956,
+          -6.7054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Caringin",
+        "npsn": "20254098",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Caringin, Kab. Bogor",
+        "subdistrict": "Cimande Hilir",
+        "address": "Jl. Raya Mayjen HE. Sukma Km. 16, Cimande Hilir, Kec. Caringin, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8248,
+          -6.7047
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Ciawi",
+        "npsn": "20200685",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Ciawi, Kab. Bogor",
+        "subdistrict": "Banjar Waru",
+        "address": "Jl. Veteran III Kp. Gugunung, Banjar Waru, Kec. Ciawi, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8612,
+          -6.6762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cisarua",
+        "npsn": "20232375",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cisarua, Kab. Bogor",
+        "subdistrict": "Leuwimalang",
+        "address": "Jl. Adhijaksa, Leuwimalang, Kec. Cisarua, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.926,
+          -6.6661
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Megamendung",
+        "npsn": "20232380",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Megamendung, Kab. Bogor",
+        "subdistrict": "Sukamaju",
+        "address": "Jl. Cikopo Selatan Pasir Kaliki, Sukamaju, Kec. Megamendung, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8882,
+          -6.678
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Sukaraja",
+        "npsn": "20231337",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Sukaraja, Kab. Bogor",
+        "subdistrict": "Cikeas",
+        "address": "Jl. Babakan Tumas, Cikeas, Kec. Sukaraja, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8449,
+          -6.5854
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Sukamakmur",
+        "npsn": "20232383",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Sukamakmur, Kab. Bogor",
+        "subdistrict": "Sukamulya",
+        "address": "Jl. Raya AMD, Sukamulya, Kec. Sukamakmur, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0073,
+          -6.5778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cariu",
+        "npsn": "20200884",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cariu, Kab. Bogor",
+        "subdistrict": "Cariu",
+        "address": "Jl. Raya Cariu, Cariu, Kec. Cariu, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.1266,
+          -6.5235
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 3 Jonggol",
+        "npsn": "70055743",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Jonggol, Kab. Bogor",
+        "subdistrict": "Singajaya",
+        "address": "Perumahan Citra Indah City, Singajaya, Kec. Jonggol, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.04193,
+          -6.46448
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Jonggol",
+        "npsn": "20200680",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Jonggol, Kab. Bogor",
+        "subdistrict": "Sukasirna",
+        "address": "Jl. Sukasirna No. 36, Sukasirna, Kec. Jonggol, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0601,
+          -6.4823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 2 Jonggol",
+        "npsn": "69986555",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Jonggol, Kab. Bogor",
+        "subdistrict": "Jonggol",
+        "address": "Jl. Irigasi Kp. Bengkok, Jonggol, Kec. Jonggol, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.074,
+          -6.4705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Gunung Putri",
+        "npsn": "20231330",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Gunung Putri, Kab. Bogor",
+        "subdistrict": "Bojong Nangka",
+        "address": "Jl. Sanding 2, Bojong Nangka, Kec. Gunung Putri, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan; coordinates corrected from Google Maps and OSM (registry point falls in Tlajung Udik, not Bojong Nangka)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.9149974,
+          -6.4267096
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 2 Cibinong",
+        "npsn": "20200691",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cibinong, Kab. Bogor",
+        "subdistrict": "Karadenan",
+        "address": "Jl. Karadenan No. 5, Karadenan, Kec. Cibinong, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.807865,
+          -6.5228617
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 3 Cibinong",
+        "npsn": "20231339",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cibinong, Kab. Bogor",
+        "subdistrict": "Nanggewer",
+        "address": "Perumahan Bogor Asri, Nanggewer, Kec. Cibinong, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.823105,
+          -6.510813
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 4 Cibinong",
+        "npsn": "69918146",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cibinong, Kab. Bogor",
+        "subdistrict": "Cibinong",
+        "address": "Jl. Bojong Koneng, Cibinong, Kec. Cibinong, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8582783,
+          -6.4862133
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cibinong",
+        "npsn": "20200885",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cibinong, Kab. Bogor",
+        "subdistrict": "Ciriung",
+        "address": "Jl. Mayor Oking Jayaatmaja No. 73, Ciriung, Kec. Cibinong, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8618067,
+          -6.4703533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Bojonggede",
+        "npsn": "69888996",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Bojonggede, Kab. Bogor",
+        "subdistrict": "Cimanggis",
+        "address": "Jl. Kemuning IV No. 71, Cimanggis, Kec. Bojonggede, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7788,
+          -6.4976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Parung",
+        "npsn": "20200602",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Parung, Kab. Bogor",
+        "subdistrict": "Warujaya",
+        "address": "Jl. Waru Jaya No. 17, Warujaya, Kec. Parung, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7111,
+          -6.4372
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cigudeg",
+        "npsn": "20231325",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cigudeg, Kab. Bogor",
+        "subdistrict": "Cigudeg",
+        "address": "Jl. Raya Cigudeg Km. 35, Cigudeg, Kec. Cigudeg, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.5364,
+          -6.5541
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Jasinga",
+        "npsn": "20200587",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Jasinga, Kab. Bogor",
+        "subdistrict": "Setu",
+        "address": "Jl. Sukamanah No. 3, Setu, Kec. Jasinga, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.4677,
+          -6.4719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Tenjo",
+        "npsn": "20231338",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tenjo, Kab. Bogor",
+        "subdistrict": "Babakan",
+        "address": "Jl. Raya Tenjo - Parung Panjang Km. 03, Babakan, Kec. Tenjo, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.4638,
+          -6.3483
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Parung Panjang",
+        "npsn": "20200887",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Parung Panjang, Kab. Bogor",
+        "subdistrict": "Jagabaya",
+        "address": "Jl. Raya Sudamanik Km. 7, Jagabaya, Kec. Parung Panjang, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.5443965,
+          -6.3961805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Tamansari",
+        "npsn": "20200604",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tamansari, Kab. Bogor",
+        "subdistrict": "Taman Sari",
+        "address": "Jl. Jaga Karsa, Taman Sari, Kec. Tamansari, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7484,
+          -6.655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Ciseeng",
+        "npsn": "20232376",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Ciseeng, Kab. Bogor",
+        "subdistrict": "Putat Nutug",
+        "address": "Jl. Cibeuteung Muara, Putat Nutug, Kec. Ciseeng, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6651,
+          -6.458
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Klapanunggal",
+        "npsn": "20276388",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Klapanunggal, Kab. Bogor",
+        "subdistrict": "Klapanunggal",
+        "address": "Jl. Terusan Bojong, Klapanunggal, Kec. Klapanunggal, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.9609,
+          -6.4522
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Sukajaya",
+        "npsn": "20232382",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Sukajaya, Kab. Bogor",
+        "subdistrict": "Sukajaya",
+        "address": "Jl. Raya Pasir Madang Km. 09, Sukajaya, Kec. Sukajaya, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.5187,
+          -6.5928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Tanjungsari",
+        "npsn": "69962280",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tanjungsari, Kab. Bogor",
+        "subdistrict": "Antajaya",
+        "address": "Jl. Antajaya No. 09, Antajaya, Kec. Tanjungsari, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.145,
+          -6.5695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Tajurhalang",
+        "npsn": "20232371",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tajurhalang, Kab. Bogor",
+        "subdistrict": "Tajur Halang",
+        "address": "Jl. Raya Tajurhalang No. 6, Tajur Halang, Kec. Tajurhalang, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7569,
+          -6.4766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Cigombong",
+        "npsn": "20200886",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cigombong, Kab. Bogor",
+        "subdistrict": "Wates Jaya",
+        "address": "Jl. Mayjen H.E. Sukma No. 297, Wates Jaya, Kec. Cigombong, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8041,
+          -6.7492
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Leuwisadeng",
+        "npsn": "69954894",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Leuwisadeng, Kab. Bogor",
+        "subdistrict": "Leuwisadeng",
+        "address": "Jl. Raya Hambaro - Leuwisadeng Km. 02, Leuwisadeng, Kec. Leuwisadeng, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.5992,
+          -6.5746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Tenjolaya",
+        "npsn": "69752279",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tenjolaya, Kab. Bogor",
+        "subdistrict": "Tapos 1",
+        "address": "Jl. Abdul Fatah, Tapos 1, Kec. Tenjolaya, Kab. Bogor",
+        "source": "Kemendikdasmen Data Referensi Pendidikan",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6939,
+          -6.6429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMA Negeri 11 Bogor",
+        "npsn": "70062861",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Tanah Sareal",
+        "subdistrict": "Kayumanis",
+        "address": "Jl. Pool Bina Marga, Kel. Kayumanis, Kec. Tanah Sareal (lokasi perkiraan)",
+        "source": "Kemendikdasmen Data Referensi Pendidikan; approximate coordinates: Google Maps pin for Jl. Pool Bina Marga (street about 1 km long)",
+        "regency": "Kota Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7698887,
+          -6.5297789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 5 Cibinong",
+        "npsn": "70062899",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Cibinong, Kab. Bogor",
+        "subdistrict": "Harapan Jaya",
+        "address": "Jl. Alfalah, Harapan Jaya, Kec. Cibinong, Kab. Bogor (lokasi perkiraan)",
+        "source": "Kemendikdasmen Data Referensi Pendidikan; approximate coordinates: Google Maps pin for UPT Pertanian Cibinong, the land the school takes over",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8407857,
+          -6.4576592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 2 Rumpin",
+        "npsn": "70062856",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Rumpin, Kab. Bogor",
+        "subdistrict": "Sukamulya",
+        "address": "Komplek Perumahan Lapan Blok C, Sukamulya, Kec. Rumpin, Kab. Bogor (lokasi perkiraan)",
+        "source": "Kemendikdasmen Data Referensi Pendidikan; approximate coordinates: midpoint of two Google Maps pins in Komplek LAPAN Blok C",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.63319,
+          -6.36671
         ]
       }
     }

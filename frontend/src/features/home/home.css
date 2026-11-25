@@ -28,3 +28,111 @@
     opacity: 1;
   }
 }
+
+/* Hero beranda. Semua ukuran lockup memakai cqw (1406px desain = 100cqw) supaya
+   proporsi logo tetap sama di setiap lebar layar. */
+.ez-hero {
+  container-type: inline-size;
+  aspect-ratio: 1406 / 791;
+  min-height: 360px;
+  width: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url("/images/home/hero-globe.webp") center / cover no-repeat;
+}
+
+.ez-hero-logo {
+  --u: calc(100cqw / 1406);
+  position: relative;
+  width: 100%;
+  height: calc(212 * var(--u));
+  margin: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+.ez-hero-logo > * {
+  position: absolute;
+  max-width: none;
+}
+
+.ez-hero-toga {
+  left: calc(126 * var(--u));
+  top: 0;
+  width: calc(212 * var(--u));
+  height: calc(212 * var(--u));
+  filter: drop-shadow(0 calc(10 * var(--u)) calc(5 * var(--u)) rgba(0, 0, 0, 0.25));
+}
+
+.ez-hero-education,
+.ez-hero-zone {
+  transform: translate(-50%, -50%);
+  font-size: calc(128 * var(--u));
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.ez-hero-education {
+  left: calc(607.5 * var(--u));
+  top: calc(103.5 * var(--u));
+  font-family: "Allerta Stencil", sans-serif;
+  letter-spacing: -0.06em;
+  color: #fff;
+  text-shadow: 0 calc(10 * var(--u)) calc(5 * var(--u)) rgba(0, 0, 0, 0.25);
+}
+
+.ez-hero-zone {
+  left: calc(1058.5 * var(--u));
+  top: calc(107.5 * var(--u));
+  font-family: "Belanosima", sans-serif;
+  letter-spacing: -0.05em;
+  color: #00b38c;
+}
+
+.ez-hero-o {
+  left: calc(985 * var(--u));
+  top: calc(78 * var(--u));
+  width: calc(59 * var(--u));
+  height: calc(63 * var(--u));
+  border-radius: 50%;
+  background: #00b38c;
+}
+
+.ez-hero-pin {
+  left: calc(988 * var(--u));
+  top: calc(76 * var(--u));
+  width: calc(53 * var(--u));
+  height: calc(56 * var(--u));
+}
+
+.ez-hero-pin-base {
+  left: calc(992 * var(--u));
+  top: calc(119 * var(--u));
+  width: calc(45 * var(--u));
+  height: calc(16 * var(--u));
+}
+
+.ez-hero-pin-dot {
+  left: calc(1007 * var(--u));
+  top: calc(91 * var(--u));
+  width: calc(15 * var(--u));
+  height: calc(15 * var(--u));
+  border-radius: 50%;
+  background: #00b38c;
+}
+
+.ez-hero-text {
+  width: 83.3cqw;
+  margin: calc(30 * 100cqw / 1406) 0 0;
+  font-family: "Inter", sans-serif;
+  font-size: clamp(13px, calc(24 * 100cqw / 1406), 28px);
+  font-weight: 700;
+  line-height: 1.21;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 4px 4px #000;
+}

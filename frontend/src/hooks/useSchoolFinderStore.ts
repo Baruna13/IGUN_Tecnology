@@ -5,13 +5,18 @@ import type { HomeLocation, School } from "../types/school";
 export interface LayerVisibility {
   buffer: boolean;
   adminBoundary: boolean;
+  schoolArea: boolean;
 }
+
+/** Where the current home point came from; "default" means GPS is off and nothing was picked yet. */
+export type HomeSource = "default" | "gps" | "manual";
 
 interface SchoolFinderState {
   /** Populated from GET /api/schools via setSchools() once the query resolves -- see hooks/useSyncSchoolsIntoStore.ts */
   schools: School[];
   selectedSchoolId: string;
   home: HomeLocation;
+  homeSource: HomeSource;
   mapFocusCoordinates: [number, number] | null;
   /** User-adjustable simulation radius (meters); null = use the school's official zone radius */
   radiusOverrideMeters: number | null;
@@ -22,6 +27,9 @@ interface SchoolFinderState {
   setSchools: (schools: School[]) => void;
   selectSchool: (id: string) => void;
   setHome: (coordinates: [number, number], label?: string) => void;
+  setHomeFromGps: (coordinates: [number, number]) => void;
+  /** Drops a GPS-based home once location access is denied or revoked; a manual home is kept. */
+  clearGpsHome: () => void;
   focusMap: (coordinates: [number, number]) => void;
   setRadiusOverride: (meters: number) => void;
   toggleLayer: (layer: keyof LayerVisibility) => void;
@@ -44,9 +52,10 @@ export const useSchoolFinderStore = create<SchoolFinderState>((set, get) => ({
   schools: [],
   selectedSchoolId: "",
   home: { coordinates: DEFAULT_HOME_COORDINATES, label: DEFAULT_HOME_LABEL },
+  homeSource: "default",
   mapFocusCoordinates: null,
   radiusOverrideMeters: null,
-  layers: { buffer: true, adminBoundary: true },
+  layers: { buffer: true, adminBoundary: true, schoolArea: true },
   isLayersPanelOpen: false,
   isPickingHome: false,
 
@@ -60,8 +69,17 @@ export const useSchoolFinderStore = create<SchoolFinderState>((set, get) => ({
   setHome: (coordinates, label) =>
     set({
       home: { coordinates, label: label ?? "Titik domisili terpilih" },
+      homeSource: "manual",
       isPickingHome: false,
     }),
+  setHomeFromGps: (coordinates) =>
+    set({ home: { coordinates, label: "Lokasi Anda saat ini" }, homeSource: "gps" }),
+  clearGpsHome: () =>
+    set((s) =>
+      s.homeSource === "gps"
+        ? { home: { coordinates: DEFAULT_HOME_COORDINATES, label: DEFAULT_HOME_LABEL }, homeSource: "default" }
+        : {}
+    ),
   focusMap: (coordinates) => set({ mapFocusCoordinates: coordinates }),
   setRadiusOverride: (meters) => set({ radiusOverrideMeters: meters }),
   toggleLayer: (layer) => set((s) => ({ layers: { ...s.layers, [layer]: !s.layers[layer] } })),

@@ -174,7 +174,7 @@ export function MapView() {
         position={midpoint}
         icon={L.divIcon({
           className: "school-marker-icon",
-          html: `<div style="white-space:nowrap;transform:translate(-50%,-50%);padding:4px 10px;border-radius:9999px;background:#0c1321;border:1.5px solid ${
+          html: `<div style="width:max-content;white-space:nowrap;transform:translate(-50%,-50%);padding:4px 10px;border-radius:9999px;background:#0c1321;border:1.5px solid ${
             eligibility.isEligible ? "#4ae176" : "#ef4444"
           };color:#dce2f6;font:600 11px 'Inter',sans-serif;">${formatDistance(eligibility.distanceMeters)}</div>`,
           iconSize: [0, 0],

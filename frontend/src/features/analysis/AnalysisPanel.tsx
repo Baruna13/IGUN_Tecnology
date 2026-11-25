@@ -30,9 +30,21 @@ export function AnalysisPanel() {
     ? false
     : eligibility.isEligible;
 
+  const isOutsideRayon = eligibility.rayonStatus === "luar";
+  const verdictLabel = isEligibleEffective
+    ? "MEMENUHI SYARAT"
+    : isSimulatedRed || isOutsideRayon
+    ? "TIDAK MEMENUHI SYARAT"
+    : "DI LUAR RADIUS SIMULASI";
+  const rayonLabel = !eligibility.homeKecamatan
+    ? "Domisili di luar wilayah rayon Bogor"
+    : `Kec. ${eligibility.homeKecamatan} ${
+        { utama: "masuk", irisan: "irisan", luar: "di luar" }[eligibility.rayonStatus]
+      } Rayon ${eligibility.rayonName ?? "sekolah ini"}`;
+
   const marginLabel = isSimulatedRed
     ? "+1.02 km Headroom"
-    : isEligibleEffective
+    : eligibility.marginMeters >= 0
     ? `+${formatDistance(eligibility.marginMeters)} headroom`
     : `${formatDistance(Math.abs(eligibility.marginMeters))} melebihi batas`;
 
@@ -112,7 +124,7 @@ export function AnalysisPanel() {
                     isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
                   )}
                 >
-                  {isEligibleEffective ? "MEMENUHI SYARAT" : "TIDAK MEMENUHI SYARAT"}
+                  {verdictLabel}
                 </span>
                 <span className="font-label-sm text-label-sm text-[#1f2937]">Jalur Domisili SPMB</span>
               </div>
@@ -123,7 +135,7 @@ export function AnalysisPanel() {
                 isEligibleEffective ? "text-[#166534]" : "text-[#dc2626]"
               )}
             >
-              {isEligibleEffective ? eligibility.score.toFixed(1) : "20.0"}
+              {isSimulatedRed ? "20.0" : eligibility.score.toFixed(1)}
               <span className="font-body-sm text-body-sm text-outline font-normal">/100</span>
             </span>
           </div>
@@ -182,9 +194,18 @@ export function AnalysisPanel() {
               </span>
             </div>
           </div>
-          <div className="flex items-center justify-between font-label-sm text-label-sm text-[#1f2937] px-space-2xs pt-space-2xs">
+          <div className="flex flex-col gap-space-2xs font-label-sm text-label-sm text-[#1f2937] px-space-2xs pt-space-2xs">
             <span className="flex items-center gap-space-2xs truncate">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" /> {home.label}
+            </span>
+            <span className="flex items-center gap-space-2xs">
+              <span
+                className={cn(
+                  "w-1.5 h-1.5 rounded-full shrink-0",
+                  { utama: "bg-[#16a34a]", irisan: "bg-[#eab308]", luar: "bg-[#dc2626]" }[eligibility.rayonStatus]
+                )}
+              />
+              {rayonLabel}
             </span>
           </div>
         </div>
@@ -199,7 +220,7 @@ export function AnalysisPanel() {
                 Rekomendasi Sekolah Alternatif
               </span>
               <span className="font-label-sm text-label-sm text-[#374151]">
-                Berdasarkan Jarak
+                Berdasarkan jarak garis lurus terdekat
               </span>
             </div>
             
@@ -211,7 +232,7 @@ export function AnalysisPanel() {
               </div>
             ) : (
               <p className="text-body-sm font-body-sm text-[#1f2937] font-medium mt-space-2xs">
-                Tidak ada sekolah lain dalam radius zonasi dari domisili ini.
+                Tidak ada sekolah lain.
               </p>
             )}
           </div>

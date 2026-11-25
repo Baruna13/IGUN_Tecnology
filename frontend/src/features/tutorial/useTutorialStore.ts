@@ -35,7 +35,7 @@ export const TUTORIAL_STEPS: TutorialStepConfig[] = [
   {
     id: "eligibility-red",
     targetId: "tutorial-eligibility-box",
-    text: 'Kotak merah ini menunjukkan hasil analisis jika rumahmu tidak masuk zonasi. Akan muncul status "TIDAK MEMENUHI SYARAT" karena jarak domisili rumah ke sekolah melebihi batas maksimal radius zona yang ditentukan.',
+    text: 'Kotak merah ini menunjukkan hasil analisis jika rumahmu tidak masuk zonasi. Akan muncul status "TIDAK MEMENUHI SYARAT" jika rumahmu di luar rayon SPMB sekolah tersebut, atau "DI LUAR RADIUS SIMULASI" jika masih satu rayon tetapi jaraknya melebihi radius.',
   },
 ];
 

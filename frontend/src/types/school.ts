@@ -18,10 +18,18 @@ export interface School {
   coordinates: [number, number];
 }
 
+/** SPMB domisili: "utama" = main kecamatan of the school's rayon, "irisan" = bordering, "luar" = cannot apply. */
+export type RayonStatus = "utama" | "irisan" | "luar";
+
 export interface EligibilityResult {
   school: School;
   distanceMeters: number;
   radiusMeters: number;
+  /** Kecamatan of the home point; null when outside the mapped area */
+  homeKecamatan: string | null;
+  rayonName: string | null;
+  rayonStatus: RayonStatus;
+  /** Inside the simulated radius AND allowed by the school's rayon */
   isEligible: boolean;
   /** Positive when inside the zone (headroom), negative when outside (overage) */
   marginMeters: number;

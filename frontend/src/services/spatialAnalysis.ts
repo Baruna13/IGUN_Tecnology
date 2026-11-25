@@ -1,6 +1,7 @@
 import { point, buffer as turfBuffer, distance as turfDistance, booleanPointInPolygon, simplify } from "@turf/turf";
 import type { Feature, Polygon } from "geojson";
-import type { EligibilityResult, RecommendedSchool, School } from "../types/school";
+import type { EligibilityResult, RayonStatus, RecommendedSchool, School } from "../types/school";
+import { findKecamatan, rayonStatus, schoolRayon } from "./rayon";
 
 /**
  * Straight-line (geodesic) distance between two [lng, lat] points, in meters.
@@ -38,35 +39,52 @@ export function buildAreaBuffer(area: Feature<Polygon>, marginMeters: number): F
 }
 
 /**
- * Scores an eligibility result 0-100: full marks well inside the zone,
- * tapering as the home approaches or exceeds the radius.
+ * How much of the distance score is kept per rayon status. The Juknis SPMB
+ * Jabar 2026 selects by "domisili terdekat pada Rayon yang bersesuaian": a home
+ * outside the school's rayon cannot use the domisili route at all. Irisan homes
+ * may apply like any other; the lower weight is this app's own estimate of
+ * crossing into another area, not an official figure.
  */
-function scoreFromMargin(distance: number, radius: number): number {
+const RAYON_WEIGHT: Record<RayonStatus, number> = { utama: 1, irisan: 0.8, luar: 0 };
+
+/**
+ * Distance part of the score, 0-100. SPMB has no fixed radius: it ranks by
+ * distance until the quota is full, and the cut-off is only known afterwards.
+ * The (simulated) radius stands in for that cut-off: 100 up to half of it, 20
+ * at 1.5x, then fading towards 0 so that farther is always lower.
+ */
+function distanceScore(distance: number, radius: number): number {
   const ratio = distance / radius;
   if (ratio <= 0.5) return 100;
-  if (ratio >= 1.5) return 20;
-  // Linear falloff between 100 (at 0.5x radius) and 20 (at 1.5x radius)
-  return Math.round(100 - ((ratio - 0.5) / 1.0) * 80);
+  if (ratio <= 1.5) return 100 - (ratio - 0.5) * 80;
+  return 20 * (1.5 / ratio);
 }
 
 export function evaluateEligibility(home: [number, number], school: School, radiusMeters?: number): EligibilityResult {
   const radius = radiusMeters ?? school.zoneRadiusMeters;
   const dist = distanceMeters(home, school.coordinates);
   const zone = buildZoneBuffer(school.coordinates, radius);
-  const eligible = isWithinZone(home, zone);
+  const homeKecamatan = findKecamatan(home);
+  const rayon = schoolRayon(school);
+  const status = rayonStatus(homeKecamatan, rayon);
+  const eligible = status !== "luar" && isWithinZone(home, zone);
   return {
     school,
     distanceMeters: dist,
     radiusMeters: radius,
+    homeKecamatan,
+    rayonName: rayon?.name ?? null,
+    rayonStatus: status,
     isEligible: eligible,
     marginMeters: radius - dist,
-    score: scoreFromMargin(dist, radius),
+    score: distanceScore(dist, radius) * RAYON_WEIGHT[status],
   };
 }
 
 /**
- * Calculates distance to every school, filters to eligible ones, sorts by
- * nearest, and returns the top N (default 3) as ranked recommendations.
+ * The N (default 3) schools with the shortest straight line from home, nearest
+ * first. Nothing is filtered out, so there is always a recommendation; each one
+ * carries its own eligibility and rayon status.
  */
 export function recommendSchools(
   home: [number, number],
@@ -74,13 +92,12 @@ export function recommendSchools(
   excludeId?: string,
   limit = 3
 ): RecommendedSchool[] {
-  const evaluated = schools
+  return schools
     .filter((s) => s.id !== excludeId)
-    .map((s) => evaluateEligibility(home, s))
-    .filter((r) => r.isEligible)
-    .sort((a, b) => a.distanceMeters - b.distanceMeters);
-
-  return evaluated.slice(0, limit).map((r, i) => ({ ...r, rank: i + 1 }));
+    .map((school) => ({ school, distance: distanceMeters(home, school.coordinates) }))
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, limit)
+    .map(({ school }, i) => ({ ...evaluateEligibility(home, school), rank: i + 1 }));
 }
 
 export function formatDistance(meters: number): string {

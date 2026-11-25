@@ -9,7 +9,7 @@ export function RecommendationCard({
   recommendation: RecommendedSchool;
   onView: () => void;
 }) {
-  const { school, distanceMeters, rank } = recommendation;
+  const { school, distanceMeters, rank, score, isEligible, rayonStatus } = recommendation;
 
   return (
     <button
@@ -24,8 +24,8 @@ export function RecommendationCard({
           </div>
           <span className="text-body-sm font-body-sm text-outline truncate block">{school.address}</span>
         </div>
-        <Badge tone="success" className="shrink-0">
-          Eligible
+        <Badge tone={isEligible ? "success" : rayonStatus === "luar" ? "danger" : "warning"} className="shrink-0">
+          {isEligible ? "Eligible" : rayonStatus === "luar" ? "Luar Rayon" : "Luar Radius"}
         </Badge>
       </div>
       <div className="flex items-center justify-between pt-space-2xs font-label-sm text-label-sm">
@@ -33,7 +33,9 @@ export function RecommendationCard({
           <span className="material-symbols-outlined text-[14px] text-[#166534]">navigation</span>
           {formatDistance(distanceMeters)} (Langsung)
         </span>
-        <span className="text-outline">Kuota: {school.quota}</span>
+        <span className="text-outline">
+          Skor: {score.toFixed(1)} · Kuota: {school.quota}
+        </span>
         <span className="text-[#166534] flex items-center gap-space-2xs font-medium">
           Lihat <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
         </span>

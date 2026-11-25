@@ -3,7 +3,7 @@ import { polygon } from "@turf/turf";
 /**
  * Real Kota Bogor administrative boundary from OpenStreetMap (relation
  * 14745927, (c) OpenStreetMap contributors, ODbL), simplified to stay within
- * ~25 m of the source. Unlike ADMIN_BOUNDARIES, this is not placeholder data.
+ * ~25 m of the source.
  */
 const RING: [number, number][] = [
   [106.73484, -6.5599], [106.73558, -6.56553], [106.73716, -6.56719], [106.73772, -6.56563], [106.73835, -6.56521],

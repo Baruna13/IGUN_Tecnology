@@ -4,8 +4,6 @@ import type { HomeLocation, School } from "../types/school";
 
 export interface LayerVisibility {
   buffer: boolean;
-  adminBoundary: boolean;
-  schoolArea: boolean;
 }
 
 /** Where the current home point came from; "default" means GPS is off and nothing was picked yet. */
@@ -55,7 +53,7 @@ export const useSchoolFinderStore = create<SchoolFinderState>((set, get) => ({
   homeSource: "default",
   mapFocusCoordinates: null,
   radiusOverrideMeters: null,
-  layers: { buffer: true, adminBoundary: true, schoolArea: true },
+  layers: { buffer: true },
   isLayersPanelOpen: false,
   isPickingHome: false,
 

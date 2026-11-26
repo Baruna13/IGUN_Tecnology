@@ -3,8 +3,6 @@ import { GeoJSON, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap, us
 import L from "leaflet";
 import { bbox } from "@turf/turf";
 import { MAP_CENTER, MAP_DEFAULT_ZOOM } from "../../data/mapDefaults";
-import { KECAMATAN_IN_SCHOOL_AREA } from "../../data/kecamatanInArea";
-import { KOTA_BOGOR_BOUNDARY } from "../../data/kotaBogorBoundary";
 import { SCHOOL_AREA } from "../../data/schoolArea";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
 import { useEligibility, useRecommendations } from "../../hooks/useAnalysis";
@@ -116,33 +114,6 @@ export function MapView() {
       <ClickToSetHome />
       <FlyToSelection school={selectedSchool} />
       <FlyToSearchLocation />
-
-      {layers.adminBoundary && (
-        <GeoJSON
-          data={KECAMATAN_IN_SCHOOL_AREA}
-          eventHandlers={{ add: (e) => e.target.bringToBack() }}
-          style={{ color: "#fb923c", weight: 3, opacity: 0.95, fillColor: "#fb923c", fillOpacity: 0.04 }}
-          onEachFeature={(feature, layer) => {
-            const name = feature.properties?.name;
-            if (typeof name === "string") layer.bindTooltip(`Kec. ${name}`, { sticky: true });
-          }}
-        />
-      )}
-
-      {layers.schoolArea && (
-        <>
-          <GeoJSON
-            data={SCHOOL_AREA}
-            interactive={false}
-            style={{ color: "#7c3aed", weight: 3, dashArray: "10,6", fill: false }}
-          />
-          <GeoJSON
-            data={KOTA_BOGOR_BOUNDARY}
-            interactive={false}
-            style={{ color: "#7c3aed", weight: 2, fill: false }}
-          />
-        </>
-      )}
 
       {layers.buffer && (
         <GeoJSON

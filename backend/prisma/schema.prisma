@@ -42,9 +42,11 @@ model School {
   status              SchoolStatus  @default(NEGERI)
   address             String
   district            String
-  accreditation       Accreditation
+  /// null for schools not accredited yet
+  accreditation       Accreditation?
   accreditationScore  Int
-  quota               Int
+  /// Official daya tampung (all SPMB routes); null when no source publishes it
+  quota               Int?
   zoneRadiusMeters    Int           @default(1500)
   longitude           Float
   latitude            Float

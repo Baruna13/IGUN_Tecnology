@@ -1,8 +1,9 @@
-const ITEMS: { color: string; label: string }[] = [
+const ITEMS: { color: string; label: string; line?: boolean }[] = [
   { color: "#4d8eff", label: "Sekolah Terpilih" },
   { color: "#00b954", label: "Domisili (Rumah)" },
   { color: "#eec200", label: "Rekomendasi Terdekat" },
   { color: "#8c909f", label: "Sekolah Lainnya" },
+  { color: "#7c3aed", label: "Rute Jalan (Motor)", line: true },
 ];
 
 export function Legend() {
@@ -13,7 +14,7 @@ export function Legend() {
     >
       {ITEMS.map((item) => (
         <span key={item.label} className="flex items-center gap-space-2xs text-label-sm font-label-sm text-on-surface-variant">
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: item.color }} />
+          <span className={item.line ? "w-4 h-1 rounded-full" : "w-2.5 h-2.5 rounded-full"} style={{ background: item.color }} />
           {item.label}
         </span>
       ))}

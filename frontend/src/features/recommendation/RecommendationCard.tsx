@@ -34,7 +34,8 @@ export function RecommendationCard({
           {formatDistance(distanceMeters)} (Langsung)
         </span>
         <span className="text-outline">
-          Skor: {score.toFixed(1)} · Kuota: {school.quota}
+          Skor: {score.toFixed(1)}
+          {school.quota !== null && ` · Daya tampung: ${school.quota}`}
         </span>
         <span className="text-[#166534] flex items-center gap-space-2xs font-medium">
           Lihat <span className="material-symbols-outlined text-[14px]">arrow_forward</span>

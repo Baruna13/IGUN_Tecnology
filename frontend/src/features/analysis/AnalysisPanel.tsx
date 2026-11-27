@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { Badge } from "../../components/Badge";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
-import { useEligibility, useRecommendations } from "../../hooks/useAnalysis";
+import { useEligibility, useRecommendations, useRoadRoute } from "../../hooks/useAnalysis";
+import { formatDuration } from "../../services/roadRoute";
 import { formatDistance } from "../../services/spatialAnalysis";
 import { RecommendationCard } from "../recommendation/RecommendationCard";
 import { RadiusSlider } from "./RadiusSlider";
 import { cn } from "../../utils/cn";
+import { ZONASI_CUTOFFS } from "../../data/spmbHistory";
+import { RAPOR_RESULTS } from "../../data/raporHistory";
+
+const score2 = (n: number) => n.toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 import { useTutorialStore, TUTORIAL_STEPS } from "../tutorial/useTutorialStore";
 
 export function AnalysisPanel() {
   const school = useSchoolFinderStore((s) => s.getSelectedSchool());
   const eligibility = useEligibility();
   const recommendations = useRecommendations();
+  const roadRoute = useRoadRoute();
   const selectSchool = useSchoolFinderStore((s) => s.selectSchool);
   const home = useSchoolFinderStore((s) => s.home);
   const homeSource = useSchoolFinderStore((s) => s.homeSource);
@@ -41,6 +47,9 @@ export function AnalysisPanel() {
     : `Kec. ${eligibility.homeKecamatan} ${
         { utama: "masuk", irisan: "irisan", luar: "di luar" }[eligibility.rayonStatus]
       } Rayon ${eligibility.rayonName ?? "sekolah ini"}`;
+
+  const cutoff = ZONASI_CUTOFFS[school.npsn];
+  const rapor = RAPOR_RESULTS[school.npsn];
 
   const marginLabel = isSimulatedRed
     ? "+1.02 km Headroom"
@@ -90,9 +99,13 @@ export function AnalysisPanel() {
             </Badge>
           </div>
           <div className="flex flex-wrap gap-space-xs mt-space-2xs">
-            <Badge tone="warning">Akreditasi {school.accreditation} (Skor {school.accreditationScore})</Badge>
+            <Badge tone="warning">
+              {school.accreditation ? `Akreditasi ${school.accreditation}` : "Belum terakreditasi"}
+            </Badge>
             <Badge>NPSN: {school.npsn}</Badge>
-            <Badge>Kuota SPMB: {school.quota} kursi</Badge>
+            <Badge>
+              {school.quota === null ? "Daya tampung: belum ada data" : `Daya tampung 2024/25: ${school.quota} kursi`}
+            </Badge>
           </div>
         </div>
 
@@ -194,6 +207,23 @@ export function AnalysisPanel() {
               </span>
             </div>
           </div>
+          {/* Jarak lewat jalan (motor): pembanding saja, skor tetap memakai garis lurus */}
+          <div className="flex items-start gap-space-xs p-space-xs rounded-lg border bg-[#ffffff]/70 border-[#c4b5fd] font-label-sm text-label-sm text-[#1f2937]">
+            <span className="material-symbols-outlined text-[18px] text-[#7c3aed] shrink-0">two_wheeler</span>
+            {roadRoute.data ? (
+              <span>
+                Lewat jalan ({roadRoute.data.profile}): <strong>{formatDistance(roadRoute.data.meters)}</strong>, sekitar{" "}
+                {formatDuration(roadRoute.data.seconds)}.{" "}
+                {roadRoute.data.meters > eligibility.distanceMeters &&
+                  `${formatDistance(roadRoute.data.meters - eligibility.distanceMeters)} lebih jauh dari garis lurus. `}
+                Skor SPMB tetap dihitung dari garis lurus.
+              </span>
+            ) : roadRoute.isError ? (
+              <span>Rute jalan tidak bisa dimuat saat ini. Skor tetap dihitung dari garis lurus.</span>
+            ) : (
+              <span className="text-outline">Mencari rute jalan terdekat...</span>
+            )}
+          </div>
           <div className="flex flex-col gap-space-2xs font-label-sm text-label-sm text-[#1f2937] px-space-2xs pt-space-2xs">
             <span className="flex items-center gap-space-2xs truncate">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" /> {home.label}
@@ -208,6 +238,49 @@ export function AnalysisPanel() {
               {rayonLabel}
             </span>
           </div>
+        </div>
+
+        {/* Riwayat jarak zonasi: hanya informasi, tidak memengaruhi skor */}
+        <div className="flex items-start gap-space-xs p-space-sm rounded-xl bg-[#f8fafc] border border-[#e2e8f0] font-label-sm text-label-sm text-[#334155]">
+          <span className="material-symbols-outlined text-[16px] text-[#64748b] shrink-0">history</span>
+          {cutoff ? (
+            <span>
+              Jalur zonasi {cutoff.year}: siswa terjauh yang diterima tinggal{" "}
+              {cutoff.approximate ? `sekitar ${formatDistance(cutoff.meters)} (perkiraan pihak sekolah)` : formatDistance(cutoff.meters)} dari
+              sekolah.
+              Rumahmu {formatDistance(eligibility.distanceMeters)},{" "}
+              <strong>
+                {eligibility.distanceMeters <= cutoff.meters
+                  ? "masih di dalam jarak tersebut"
+                  : `${formatDistance(eligibility.distanceMeters - cutoff.meters)} lebih jauh`}
+              </strong>
+              .
+            </span>
+          ) : (
+            <span>Data jarak penerimaan zonasi tahun lalu belum tersedia untuk sekolah ini.</span>
+          )}
+        </div>
+
+        {/* Riwayat jalur rapor: hanya informasi, tidak memengaruhi skor */}
+        <div className="flex items-start gap-space-xs p-space-sm rounded-xl bg-[#f8fafc] border border-[#e2e8f0] font-label-sm text-label-sm text-[#334155]">
+          <span className="material-symbols-outlined text-[16px] text-[#64748b] shrink-0">grading</span>
+          {rapor ? (
+            <span>
+              Jalur rapor {rapor.year}: skor akhir terendah yang diterima <strong>{score2(rapor.low)}</strong>
+              {rapor.high !== undefined && `, tertinggi ${score2(rapor.high)}`}.{" "}
+              {rapor.source === "Databoks" ? (
+                <>
+                  Sekolah membuka {rapor.totalSeats} kursi untuk semua jalur, dengan {rapor.applicants?.toLocaleString("id-ID")}{" "}
+                  pendaftar. Skor akhir = 50% rata-rata rapor semester 1-5 + 50% tes terstandar. Sumber: daftar kelulusan Disdik
+                  Jabar, dirangkum Databoks.
+                </>
+              ) : (
+                <>Skala skor 2025 berbeda dengan 2026.</>
+              )}
+            </span>
+          ) : (
+            <span>Data nilai jalur rapor tahun lalu belum tersedia untuk sekolah ini.</span>
+          )}
         </div>
 
         <RadiusSlider />

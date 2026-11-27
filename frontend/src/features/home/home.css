@@ -30,11 +30,13 @@
 }
 
 /* Hero beranda. Semua ukuran lockup memakai cqw (1406px desain = 100cqw) supaya
-   proporsi logo tetap sama di setiap lebar layar. */
+   proporsi logo tetap sama di setiap lebar layar. --hero-scale mengecilkan logo
+   dan teks dari ukuran desain Figma (1 = sama persis dengan desain). */
 .ez-hero {
+  --hero-scale: 0.86;
   container-type: inline-size;
-  aspect-ratio: 1406 / 791;
-  min-height: 360px;
+  aspect-ratio: 1406 / 670;
+  min-height: 330px;
   width: 100%;
   border-radius: 30px;
   overflow: hidden;
@@ -46,9 +48,9 @@
 }
 
 .ez-hero-logo {
-  --u: calc(100cqw / 1406);
+  --u: calc(var(--hero-scale) * 100cqw / 1406);
   position: relative;
-  width: 100%;
+  width: calc(1406 * var(--u));
   height: calc(212 * var(--u));
   margin: 0;
   line-height: 1;
@@ -126,10 +128,10 @@
 }
 
 .ez-hero-text {
-  width: 83.3cqw;
-  margin: calc(30 * 100cqw / 1406) 0 0;
+  width: calc(var(--hero-scale) * 83.3cqw);
+  margin: calc(var(--hero-scale) * 30 * 100cqw / 1406) 0 0;
   font-family: "Inter", sans-serif;
-  font-size: clamp(13px, calc(24 * 100cqw / 1406), 28px);
+  font-size: clamp(12px, calc(var(--hero-scale) * 24 * 100cqw / 1406), 22px);
   font-weight: 700;
   line-height: 1.21;
   text-align: center;

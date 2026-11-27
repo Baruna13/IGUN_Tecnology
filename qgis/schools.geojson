@@ -1239,6 +1239,27 @@
           -6.36671
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SMAN 1 Kemang",
+        "npsn": "70055745",
+        "level": "SMA",
+        "status": "NEGERI",
+        "district": "Kec. Kemang, Kab. Bogor",
+        "subdistrict": "Tegal",
+        "address": "Perumahan Telaga Kahuripan, Desa Tegal, Kec. Kemang, Kab. Bogor (lokasi perkiraan)",
+        "source": "Kemendikdasmen Data Referensi Pendidikan (address only, no coordinates); approximate coordinates: where Jalan Tegal-Kahuripan (OSM way 167410076) meets Perumahan Telaga Kahuripan inside Desa Tegal (OSM relation 19957795)",
+        "regency": "Kabupaten Bogor"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7178,
+          -6.4792
+        ]
+      }
     }
   ]
 }

@@ -9,39 +9,47 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCHOOLS_GEOJSON_PATH = path.resolve(__dirname, "../../qgis/schools.geojson");
 
 /**
- * Accreditation, accreditation score, quota, and the domicile zone radius are
+ * quota is the official 2024/2025 daya tampung for SMAN 1-10 Bogor (published
+ * by SMAN 5 Bogor) and null where no source publishes it.
+ * Accreditation, accreditation score, and the domicile zone radius are
  * NOT present in the OSM export (OSM has no PPDB/Dapodik data) -- they are
  * policy/administrative figures kept as reasonable placeholders here until a
  * real source (e.g. Kemdikbud Dapodik, or the school district) is wired in.
  * Everything else below (name, npsn, coordinates, district) comes straight
  * from qgis/schools.geojson.
  */
-const POLICY_DEFAULTS: Record<string, { accreditation: "A" | "B" | "C"; accreditationScore: number; quota: number }> = {
+const POLICY_DEFAULTS: Record<string, { accreditation: "A" | "B" | "C" | null; accreditationScore: number; quota: number | null }> = {
   // Kota Bogor
   "20220342": { accreditation: "A", accreditationScore: 98, quota: 324 }, // SMA Negeri 1 Bogor
-  "20238516": { accreditation: "A", accreditationScore: 93, quota: 312 }, // SMA Negeri 2 Bogor
-  "20220332": { accreditation: "A", accreditationScore: 95, quota: 288 }, // SMA Negeri 3 Bogor
-  "20220334": { accreditation: "A", accreditationScore: 90, quota: 300 }, // SMA Negeri 4 Bogor
-  "20238517": { accreditation: "A", accreditationScore: 88, quota: 280 }, // SMA Negeri 5 Bogor
-  "20220335": { accreditation: "B", accreditationScore: 84, quota: 270 }, // SMA Negeri 6 Bogor
-  "20220336": { accreditation: "A", accreditationScore: 86, quota: 256 }, // SMA Negeri 7 Bogor
-  "20220337": { accreditation: "B", accreditationScore: 81, quota: 264 }, // SMA Negeri 8 Bogor
-  "20220338": { accreditation: "A", accreditationScore: 89, quota: 292 }, // SMA Negeri 9 Bogor
-  "20220341": { accreditation: "B", accreditationScore: 83, quota: 260 }, // SMA Negeri 10 Bogor
+  "20238516": { accreditation: "A", accreditationScore: 93, quota: 323 }, // SMA Negeri 2 Bogor
+  "20220332": { accreditation: "A", accreditationScore: 95, quota: 320 }, // SMA Negeri 3 Bogor
+  "20220334": { accreditation: "A", accreditationScore: 90, quota: 324 }, // SMA Negeri 4 Bogor
+  "20238517": { accreditation: "A", accreditationScore: 88, quota: 324 }, // SMA Negeri 5 Bogor
+  "20220335": { accreditation: "A", accreditationScore: 84, quota: 324 }, // SMA Negeri 6 Bogor
+  "20220336": { accreditation: "A", accreditationScore: 86, quota: 324 }, // SMA Negeri 7 Bogor
+  "20220337": { accreditation: "A", accreditationScore: 81, quota: 324 }, // SMA Negeri 8 Bogor
+  "20220338": { accreditation: "A", accreditationScore: 89, quota: 324 }, // SMA Negeri 9 Bogor
+  "20220341": { accreditation: "A", accreditationScore: 83, quota: 324 }, // SMA Negeri 10 Bogor
   // Kabupaten Bogor (placeholder policy data until Dapodik is wired in). Schools not listed here use DEFAULT_POLICY.
-  "20232374": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Ciomas
-  "20200681": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Cileungsi
-  "20200603": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Citeureup
-  "20270776": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Gunung Putri
-  "20232377": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Dramaga
-  "69754446": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMA Negeri 1 Rancabungur
-  "20200676": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Ciampea
-  "20200903": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Rumpin
-  "20231331": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Gunungsindur
-  "20231322": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 1 Babakan Madang
-  "69926270": { accreditation: "B", accreditationScore: 80, quota: 250 }, // SMAN 2 Cileungsi
+  "20200691": { accreditation: "A", accreditationScore: 80, quota: 431 }, // SMAN 2 Cibinong (daya tampung 2024/25, Tribun Bogor)
+  "20232374": { accreditation: "A", accreditationScore: 80, quota: null }, // SMA Negeri 1 Ciomas
+  "20200681": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Cileungsi
+  "20200603": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Citeureup
+  "20270776": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 2 Gunung Putri
+  "20232377": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Dramaga
+  "69754446": { accreditation: "A", accreditationScore: 80, quota: null }, // SMA Negeri 1 Rancabungur
+  "20200676": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Ciampea
+  "20200903": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Rumpin
+  "20231331": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Gunungsindur
+  "20231322": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 1 Babakan Madang
+  "69926270": { accreditation: "A", accreditationScore: 80, quota: null }, // SMAN 2 Cileungsi
 };
-const DEFAULT_POLICY = { accreditation: "B" as const, accreditationScore: 80, quota: 250 };
+/** Real accreditation (Sekolah Kita, read 2026-11-27): A unless listed; null = not accredited yet. */
+const NOT_ACCREDITED_A: Record<string, "B" | null> = {"20232383":"B", "69752279":"B", "69986555":"B", "70055743":null, "70055745":null, "70062856":null, "70062861":null, "70062899":null};
+function realAccreditation(npsn: string): "A" | "B" | null {
+  return npsn in NOT_ACCREDITED_A ? NOT_ACCREDITED_A[npsn] : "A";
+}
+const DEFAULT_POLICY = { accreditation: "B" as const, accreditationScore: 80, quota: null };
 const DEFAULT_ZONE_RADIUS_METERS = 1500;
 
 function slugify(name: string): string {
@@ -72,7 +80,7 @@ async function loadSchoolsFromGeoJson() {
   const geojson = JSON.parse(raw) as { features: RawSchoolFeature[] };
   return geojson.features.map((f) => {
     const p = f.properties;
-    const policy = POLICY_DEFAULTS[p.npsn] ?? DEFAULT_POLICY;
+    const policy = { ...DEFAULT_POLICY, ...POLICY_DEFAULTS[p.npsn], accreditation: realAccreditation(p.npsn) };
     return {
       slug: slugify(p.name),
       name: p.name,

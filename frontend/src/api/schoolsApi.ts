@@ -13,9 +13,9 @@ interface SchoolApiDTO {
   status: "NEGERI" | "SWASTA";
   address: string;
   district: string;
-  accreditation: "A" | "B" | "C";
+  accreditation: "A" | "B" | "C" | null;
   accreditationScore: number;
-  quota: number;
+  quota: number | null;
   zoneRadiusMeters: number;
   coordinates: [number, number];
 }

@@ -5,7 +5,7 @@ import { bbox } from "@turf/turf";
 import { MAP_CENTER, MAP_DEFAULT_ZOOM } from "../../data/mapDefaults";
 import { SCHOOL_AREA } from "../../data/schoolArea";
 import { useSchoolFinderStore } from "../../hooks/useSchoolFinderStore";
-import { useEligibility, useRecommendations } from "../../hooks/useAnalysis";
+import { useEligibility, useRecommendations, useRoadRoute } from "../../hooks/useAnalysis";
 import { buildZoneBuffer, formatDistance } from "../../services/spatialAnalysis";
 import { homeIcon, passiveSchoolIcon, recommendedSchoolIcon, selectedSchoolIcon } from "./markerIcons";
 import { MapControlsDock } from "./MapControlsDock";
@@ -78,6 +78,7 @@ export function MapView() {
   const radiusOverrideMeters = useSchoolFinderStore((s) => s.radiusOverrideMeters);
   const eligibility = useEligibility();
   const recommendations = useRecommendations();
+  const { data: roadRoute } = useRoadRoute();
 
   const selectedSchool = schools.find((s) => s.id === selectedSchoolId) ?? schools[0];
   const radius = radiusOverrideMeters ?? selectedSchool.zoneRadiusMeters;
@@ -130,6 +131,14 @@ export function MapView() {
         />
       )}
 
+      {/* Rute jalan sebenarnya (motor), di bawah garis lurus */}
+      {roadRoute && (
+        <>
+          <Polyline positions={roadRoute.path} pathOptions={{ color: "#ffffff", weight: 7, opacity: 0.9 }} interactive={false} />
+          <Polyline positions={roadRoute.path} pathOptions={{ color: "#7c3aed", weight: 4, opacity: 0.95 }} interactive={false} />
+        </>
+      )}
+
       <Polyline
         positions={[homeLatLng, schoolLatLng]}
         pathOptions={{
@@ -147,7 +156,9 @@ export function MapView() {
           className: "school-marker-icon",
           html: `<div style="width:max-content;white-space:nowrap;transform:translate(-50%,-50%);padding:4px 10px;border-radius:9999px;background:#0c1321;border:1.5px solid ${
             eligibility.isEligible ? "#4ae176" : "#ef4444"
-          };color:#dce2f6;font:600 11px 'Inter',sans-serif;">${formatDistance(eligibility.distanceMeters)}</div>`,
+          };color:#dce2f6;font:600 11px 'Inter',sans-serif;">Garis lurus ${formatDistance(eligibility.distanceMeters)}${
+            roadRoute ? `<span style="color:#c4b5fd"> · Jalan ${formatDistance(roadRoute.meters)}</span>` : ""
+          }</div>`,
           iconSize: [0, 0],
         })}
         interactive={false}

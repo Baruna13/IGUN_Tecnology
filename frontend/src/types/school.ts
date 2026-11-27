@@ -9,9 +9,11 @@ export interface School {
   status: SchoolStatus;
   address: string;
   district: string;
-  accreditation: "A" | "B" | "C";
+  /** BAN-PDM accreditation; null for schools not accredited yet */
+  accreditation: "A" | "B" | "C" | null;
   accreditationScore: number;
-  quota: number;
+  /** Official daya tampung (all SPMB routes), 2024/2025; null when no source publishes it */
+  quota: number | null;
   /** Domicile zoning radius in meters, used for the buffer/eligibility check */
   zoneRadiusMeters: number;
   /** [longitude, latitude], matches GeoJSON coordinate order */

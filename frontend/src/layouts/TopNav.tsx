@@ -166,9 +166,6 @@ export function TopNav({ onHome }: { onHome: () => void }) {
               alt="Logo EduZONE"
               className="h-9 w-auto object-contain"
             />
-            <span className="hidden sm:inline font-headline-sm text-gray-800 dark:text-white font-semibold tracking-tight">
-              EduZONE
-            </span>
           </button>
           <button
             type="button"
